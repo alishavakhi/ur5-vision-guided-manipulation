@@ -399,3 +399,42 @@ build, launch, expected outputs, the four automation layers, and an explicit
 statement of what has and has not been executed.
 
 No algorithm, source file, report or licence text was modified by this release.
+
+## Complete environment: the generated files added
+
+**Requested.** Every remaining republishable file from the upstream repository is
+now included: the 35 colcon artefacts under `ir_base/models/{build,install,log}/`.
+They are the environment author's own generated output and so fall under the same
+redistribution permission as the rest of his environment.
+
+| | After the previous release | Now |
+|---|---|---|
+| upstream files included | 133 | **168 of 207** |
+| files not published | 74 | **39** |
+
+All 35 files, including the two relative symlinks (`log/latest`,
+`log/latest_build`), are byte-identical to upstream and were verified by SHA-256
+after copying: 35/35, 0 mismatches. Nothing was renamed, reformatted or modified.
+
+No file was replaced or removed by this change.
+
+**The 39 files that remain unpublished** are the only ones, and they are not
+omitted silently:
+
+| Excluded | Author | Files |
+|---|---|---|
+| `ir_base/models/artag/` | **Nicola Castaman** `<nicola.castaman@dei.unipd.it>` | 36 |
+| `ir_base/models/walls/arena_walls/` | **Elisa Tosello** `<elisa.tosello@unipd.it>` | 3 |
+
+These are authored by people other than the environment's author, carry no licence
+of their own, and are **not covered by his permission** — a grant reaches the
+grantor's copyright only. Publishing them would be redistribution of unlicensed
+third-party material, so they are not included. The `artag` marker *images* used by
+the simulation are present in this repository as regenerated files rendered from
+the public BSD-2-Clause AprilTag `tag36h11` family definition, with identical tag
+ids, geometry and file paths; `arena_walls` is referenced by no world and is
+absent entirely.
+
+If either author's permission is obtained, both groups drop into their existing
+paths in a single commit. They are preserved in full, with per-file SHA-256 hashes,
+in the private snapshot.

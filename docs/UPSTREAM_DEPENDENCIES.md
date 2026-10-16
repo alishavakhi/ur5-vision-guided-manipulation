@@ -26,7 +26,7 @@ Commit date         : 2025-09-10 16:23:42 +0200
 Commit author       : Piero Simonetto <simonetto.piero@gmail.com>
                       University of Padova
 Upstream files      : 207 tracked files
-Included here       : 133 files, SHA-256 verified byte-identical
+Included here       : 168 files, SHA-256 verified byte-identical
 ```
 
 ## Permission
@@ -57,7 +57,10 @@ is needed to build or run either project.
 |---|---|---|
 | `ir_base/models/artag/` (36 files) | **Nicola Castaman** | **Replaced.** The marker images are regenerated from the public BSD-2-Clause AprilTag `tag36h11` family definition. Same tag ids, same geometry, same paths — verified by decoding each marker with the reference detector |
 | `ir_base/models/walls/arena_walls/` (3 files) | **Elisa Tosello** | **Excluded, not replaced.** Referenced by no world file, so nothing is affected |
-| `ir_base/models/{build,install,log}/` (35 files) | — | Excluded: colcon build output committed upstream by accident, also embedding the upstream author's local path |
+
+168 of the 207 upstream files are included. The 35 colcon build artefacts under
+`ir_base/models/{build,install,log}/` are included — generated output, but the
+environment author's own and covered by the same permission.
 
 Components whose licences **do** permit redistribution and are included:
 `apriltag_ros` (MIT, © 2017 Christian Rauch), `cafe_table` (CC-BY-3.0, © 2012
@@ -66,7 +69,7 @@ Robotics) and the UR5 meshes (BSD-3-Clause, Universal Robots).
 
 > **This is not a byte-for-byte complete copy of the upstream repository, and is
 > not described as one.** The full 207-file snapshot is preserved privately outside
-> this repository with a per-file SHA-256 manifest, and the exact 74 excluded paths
+> this repository with a per-file SHA-256 manifest, and the exact 39 excluded paths
 > are enumerated in [`third_party/ir_2526/NOTICE`](../third_party/ir_2526/NOTICE)
 > section 6.
 

@@ -12,7 +12,7 @@ Commit date         : 2025-09-10 16:23:42 +0200
 Commit author       : Piero Simonetto <simonetto.piero@gmail.com>
                      University of Padova
 Upstream files      : 207 tracked files
-Included here       : 133 files
+Included here       : 168 files
 ```
 
 The environment is redistributed **with the author's permission**, on the basis
@@ -29,7 +29,7 @@ reformatted, reordered or edited.
 
 | Package | Files | What it provides |
 |---|---|---|
-| `ir_base/` | 47 | the worlds, occupancy maps, Nav2 parameters, robot and camera descriptions, rviz config, and the `cafe_table`, `objects` and `docks` models |
+| `ir_base/` | 82 | the worlds, occupancy maps, Nav2 parameters, robot and camera descriptions, rviz config, and the `cafe_table`, `objects` and `docks` models |
 | `ir_desription/` | 36 | the UR5 arm and Robotiq gripper description, meshes, and kinematics/physical configuration |
 | `ir_movit_config/` | 30 | the MoveIt 2 configuration, controllers, SRDF, xacro and the controller spawner source |
 | `apriltag_ros/` | 14 | the `apriltag_ros` node (v3.3.0, MIT) used by the TurtleBot 3 pipeline |
@@ -52,16 +52,20 @@ packages by name — `get_package_share_directory('ir_base')`,
 
 ## What is deliberately not here
 
-74 of the 207 upstream files are not published, in two groups. Neither group is
-needed to build or run either project.
-
-### 1. Files whose third-party rights are not resolved — 39 files
+39 of the 207 upstream files are not published. None of them is needed to build or
+run either project.
 
 These are real assets authored by people other than the environment's author, with
 no licence stated anywhere. The author's permission covers **his** work, not
 theirs, so they are not published on the strength of it. All 39 are preserved in
 full in the private snapshot described below, and they remain available in the
 upstream repository itself, where their authors put them.
+
+> The colcon build output under `ir_base/models/{build,install,log}/` **is**
+> included here, byte-identical. It is the environment author's own generated
+> output and so falls under the same permission; it also embeds his local
+> filesystem path, which is his to publish — the upstream repository is public and
+> has always carried it.
 
 | Excluded | Author | Files | Where they are now |
 |---|---|---|---|
@@ -71,23 +75,6 @@ upstream repository itself, where their authors put them.
 The `walls` model is the one component of this environment that is **not present
 in any form**. It is unused — no world file references it — so neither project is
 affected, but the omission is stated here rather than left for a reader to find.
-
-### 2. colcon build artefacts — 35 files
-
-```
-ir_base/models/build/    2 files
-ir_base/models/install/ 12 files
-ir_base/models/log/     21 files    (including 424 KB of build logs)
-```
-
-These are generated build output that was committed upstream by accident, under a
-`models/` directory that was itself treated as a colcon workspace. They are not
-source and nothing in either project reads them. They are also **not published for
-a privacy reason**: the logs embed the upstream author's local filesystem path
-(`/home/piero`, 114 occurrences). They remain in the upstream repository and in
-the private snapshot.
-
----
 
 ## Defects inherited from upstream
 
@@ -112,11 +99,11 @@ copying:
 
 | Check | Result |
 |---|---|
-| Files verified by SHA-256 | 133 / 133 |
+| Files verified by SHA-256 | 168 / 168 |
 | Content mismatches | 0 |
 | Renames, reformats or edits | 0 |
 
-The complete upstream snapshot — all 207 files, including the 74 not published —
+The complete upstream snapshot — all 207 files, including the 39 not published —
 with a per-file SHA-256 manifest, is held privately outside both repositories:
 
 ```
@@ -127,7 +114,7 @@ manifest : ~/engineering-portfolio/manifests/ir_2526-FULL.sha256   (207 entries)
 > **This is not a byte-for-byte complete copy of the upstream repository**, and it
 > is not described as one. It is a complete copy of the upstream repository's
 > source, minus two asset groups authored by third parties with unresolved rights
-> and minus accidentally-committed build output. The exact 74 excluded paths are
+> The exact 39 excluded paths are
 > enumerated above.
 
 ---

@@ -3,6 +3,13 @@ build/
 install/
 log/
 
+# Exception: the vendored simulation environment is preserved byte-identically,
+# and upstream committed its own colcon output under ir_base/models/. Those 35
+# files are part of the preserved tree, so they are re-included explicitly here.
+!third_party/ir_2526/ir_base/models/build/
+!third_party/ir_2526/ir_base/models/install/
+!third_party/ir_2526/ir_base/models/log/
+
 # ---------- Python ----------
 __pycache__/
 *.py[cod]

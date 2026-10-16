@@ -5,19 +5,20 @@ Origin, authorship and licence status of every component under this directory, s
 that attribution is unambiguous and the boundary between this project's own work
 and third-party work is clear.
 
-SCOPE, STATED PLAINLY: this directory is a complete copy of the upstream
-repository's SOURCE. It is NOT a byte-for-byte complete copy of the upstream
-repository. 133 of the 207 tracked upstream files are here; the other 74 fall into
-two groups:
+SCOPE, STATED PLAINLY: this directory is NOT a byte-for-byte complete copy of the
+upstream repository. 168 of the 207 tracked upstream files are here. The 39 that
+are not are the two asset groups whose third-party rights are unresolved - authored
+by people other than the environment's author, carrying no licence of their own
+(section 3).
 
-  - 39 files whose third-party rights are unresolved (section 3) - two asset
-    groups authored by people other than the environment's author, carrying no
-    licence of their own;
-  - 35 colcon build artefacts that were committed upstream by accident (section 6).
+Nothing is missing silently: section 3 names both groups and section 6 enumerates
+every one of the 39 excluded paths. All 207 upstream files are preserved in full in
+a private snapshot outside this repository, with a per-file SHA-256 manifest.
 
-Nothing is missing silently: section 6 enumerates every one of the 74 excluded
-paths. All 207 upstream files are preserved in full in a private snapshot outside
-this repository, with a per-file SHA-256 manifest.
+The colcon build output under ir_base/models/{build,install,log}/ IS included,
+byte-identical. It is the environment author's own generated output and falls under
+the same permission; it also embeds his local filesystem path, which is his to
+publish - the upstream repository is public and has always carried it.
 
 --------------------------------------------------------------------------------
 1. SIMULATION ENVIRONMENT - vendored complete, with the author's permission
@@ -29,7 +30,7 @@ this repository, with a per-file SHA-256 manifest.
   Author      : Piero Simonetto <simonetto.piero@gmail.com>
                 University of Padova
 
-  Files       : third_party/ir_2526/**  - 133 of the 207 upstream tracked files
+  Files       : third_party/ir_2526/**  - 168 of the 207 upstream tracked files
 
   Copyright   : (c) Piero Simonetto
 
@@ -42,7 +43,7 @@ this repository, with a per-file SHA-256 manifest.
                 repository.
 
   Every included file is byte-identical to the commit above. Verified by SHA-256
-  after copying: 133/133, 0 mismatches. No header, copyright notice or licence
+  after copying: 168/168, 0 mismatches. No header, copyright notice or licence
   declaration has been altered.
 
 --------------------------------------------------------------------------------
@@ -196,10 +197,13 @@ this repository, with a per-file SHA-256 manifest.
   The Apache-2.0 licence does NOT extend to anything in third_party/.
 
 --------------------------------------------------------------------------------
-6. WHAT IS NOT HERE - ALL 74 EXCLUDED PATHS
+6. WHAT IS NOT HERE - ALL 39 EXCLUDED PATHS
 --------------------------------------------------------------------------------
 
-  39 files with unresolved third-party rights (section 3):
+  Every excluded path is in one of the two asset groups described in section 3,
+  both authored by people other than the environment's author and carrying no
+  licence of their own. Nothing else from the upstream repository is missing.
+
       ir_base/models/artag/materials/scripts/artag0.material  .. artag15.material
       ir_base/models/artag/materials/textures/tag36_11_00000.png .. 00101.png
       ir_base/models/artag/model.config, model.sdf
@@ -207,16 +211,15 @@ this repository, with a per-file SHA-256 manifest.
       ir_base/models/walls/arena_walls/model.config
       ir_base/models/walls/arena_walls/model.sdf
 
-  35 colcon build artefacts, accidentally committed upstream under a models/
-  directory that was itself treated as a colcon workspace, and embedding the
-  upstream author's local path (/home/piero, 114 occurrences):
-      ir_base/models/build/**    2 files
-      ir_base/models/install/**  12 files
-      ir_base/models/log/**      21 files
+  Neither group is needed to build or run either project.
 
-  Not published, and not needed: nothing in either project reads them.
+  INCLUDED, and worth noting because it is generated rather than source: the 35
+  colcon artefacts under ir_base/models/{build,install,log}/ are present,
+  byte-identical to upstream. They are the environment author's own output and fall
+  under the same permission; they also embed his local path (/home/piero), which is
+  his to publish - the upstream repository is public and has always carried it.
 
-  COMPLETE PRIVATE SNAPSHOT (all 207 files, including all 74 above):
+  COMPLETE PRIVATE SNAPSHOT (all 207 files, including all 39 above):
       ~/engineering-portfolio/work/third_party_inspect/ir_2526/
       ~/engineering-portfolio/manifests/ir_2526-FULL.sha256   (207 entries,
       SHA-256 per file, verified against the working snapshot)
