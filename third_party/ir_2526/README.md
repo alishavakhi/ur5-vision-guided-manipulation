@@ -87,6 +87,30 @@ third_party/ir_2526/
 | `ir_base/models/build`, `models/install`, `models/log` | colcon build artefacts accidentally committed upstream — not part of the environment |
 | `ir_base/models/docks`, `models/objects`, `models/walls` | **not referenced by the simulation world.** Omitting them limits how much third-party material is redistributed, since `models/walls/arena_walls` is credited to a further author (Elisa Tosello) and `objects`/`docks` carry no authorship at all |
 | `apriltag_ros` | a pristine upstream copy of `apriltag_ros` 3.3.0 (MIT). Not used by this project, which detects tags with `dt_apriltags` in Python |
+| `ir_launch/launch/assignment_1.launch.py`, `spawn_tb3_launch.py`, `exercise_4.launch.py` | TurtleBot 3 and exercise launch files, used by the companion repository rather than this one |
+| `ir_movit_config/launch/` — `fake_hw`, `gazebo`, `test`, `tmp`, `simulation_complete`, `ir_ur` | alternative/diagnostic launch files not on this project's launch path. `ir_ur.py` also references an `ir_arena` package that does not exist anywhere in the upstream repository, so it could never have run |
+
+> **This is a subset of the upstream packages.** `ir_launch` carries one of its
+> four launch files; `ir_movit_config` carries the two on this project's launch
+> path. Every file present is byte-identical to upstream; none was edited.
+> `ir_base` and `ir_desription` are complete apart from the model directories
+> listed above.
+
+The two launch files this project does use are
+`ir_movit_config/launch/ir_base.launch.py` and `ir_movit.launch.py`, both
+reached from `ir_launch/launch/assignment_2.launch.py`. Neither includes any of
+the omitted files, so the launch path is complete.
+
+## Hidden dependencies to install
+
+These are referenced by the launch files this project uses:
+
+| Package | Why |
+|---|---|
+| `ur-description` | the resource path and rviz configuration |
+| `ur-robot-driver` | referenced by `ir_movit.launch.py` |
+| `moveit-servo`, `moveit-ros-move-group`, `joint-state-publisher` | referenced by the MoveIt launch path |
+| `xacro` | the description is xacro-expanded at launch |
 
 The world file was inspected for `model://` references: only `models/artag` and
 `models/cafe_table` are required.

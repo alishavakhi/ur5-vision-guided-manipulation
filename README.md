@@ -379,11 +379,20 @@ sudo apt install -y \
   ros-$ROS_DISTRO-ros2-control ros-$ROS_DISTRO-ros2-controllers \
   ros-$ROS_DISTRO-controller-manager \
   ros-$ROS_DISTRO-cv-bridge ros-$ROS_DISTRO-vision-opencv \
-  ros-$ROS_DISTRO-ros-gz \
+  ros-$ROS_DISTRO-ros-gz ros-$ROS_DISTRO-ros-gz-bridge \
+  ros-$ROS_DISTRO-ur-description ros-$ROS_DISTRO-ur-moveit-config \
+  ros-$ROS_DISTRO-ur-robot-driver ros-$ROS_DISTRO-ur-simulation-gz \
+  ros-$ROS_DISTRO-moveit-servo ros-$ROS_DISTRO-moveit-ros-move-group \
+  ros-$ROS_DISTRO-joint-state-publisher ros-$ROS_DISTRO-xacro \
   python3-opencv python3-numpy python3-colcon-common-extensions
 
 pip install dt-apriltags          # the pure-Python AprilTag detector
 ```
+
+The `ur-*` packages are required because the vendored launch path resolves them
+by name — `ur_description` for the Gazebo resource path and rviz configuration,
+and `ur_robot_driver` from `ir_movit.launch.py`. They are upstream's own
+references and are left unmodified.
 
 ### 3. Get the code and build
 
