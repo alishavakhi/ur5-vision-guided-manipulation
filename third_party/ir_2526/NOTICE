@@ -5,23 +5,14 @@ Origin, authorship and licence status of every component under this directory, s
 that attribution is unambiguous and the boundary between this project's own work
 and third-party work is clear.
 
-SCOPE, STATED PLAINLY: this directory is NOT a byte-for-byte complete copy of the
-upstream repository. 168 of the 207 tracked upstream files are here. The 39 that
-are not are the two asset groups whose third-party rights are unresolved - authored
-by people other than the environment's author, carrying no licence of their own
-(section 3).
-
-Nothing is missing silently: section 3 names both groups and section 6 enumerates
-every one of the 39 excluded paths. All 207 upstream files are preserved in full in
-a private snapshot outside this repository, with a per-file SHA-256 manifest.
-
-The colcon build output under ir_base/models/{build,install,log}/ IS included,
-byte-identical. It is the environment author's own generated output and falls under
-the same permission; it also embeds his local filesystem path, which is his to
-publish - the upstream repository is public and has always carried it.
+SCOPE, STATED PLAINLY: this directory IS a byte-for-byte complete copy of the
+upstream repository at the commit below. All 207 tracked files are present, at
+their original paths, with their original bytes. Nothing is excluded, renamed,
+reformatted or modified. Verified by SHA-256 after copying: 205 files + 2 symlinks,
+0 mismatches.
 
 --------------------------------------------------------------------------------
-1. SIMULATION ENVIRONMENT - vendored complete, with the author's permission
+1. SIMULATION ENVIRONMENT - complete, with the author's permission
 --------------------------------------------------------------------------------
 
   Source      : https://github.com/PieroSimonet/ir_2526
@@ -30,50 +21,39 @@ publish - the upstream repository is public and has always carried it.
   Author      : Piero Simonetto <simonetto.piero@gmail.com>
                 University of Padova
 
-  Files       : third_party/ir_2526/**  - 168 of the 207 upstream tracked files
+  Files       : third_party/ir_2526/**  - all 207 upstream tracked files
 
-  Copyright   : (c) Piero Simonetto
+  Copyright   : (c) Piero Simonetto and the individual contributors named in each
+                file's own credit block
 
   Status      : Redistributed with the author's permission, granted on the basis
                 that attribution is maintained. The upstream repository carries no
                 licence file, and its packages declare
                 "<license>TODO: License declaration</license>", so no licence is
                 asserted here and none was invented. All rights remain with the
-                author; the only right granted is redistribution in this
+                authors; the only right granted is redistribution in this
                 repository.
 
-  Every included file is byte-identical to the commit above. Verified by SHA-256
-  after copying: 168/168, 0 mismatches. No header, copyright notice or licence
-  declaration has been altered.
+  Every file is byte-identical to the commit above. Verified by SHA-256 after
+  copying: 207/207, 0 mismatches. No header, copyright notice or credit block has
+  been altered.
 
 --------------------------------------------------------------------------------
-2. THIRD-PARTY COMPONENTS - LICENCE STATUS RESOLVED
+2. THIRD-PARTY COMPONENTS WITH THEIR OWN LICENCES
 --------------------------------------------------------------------------------
 
-  2a. AprilTag marker images - REGENERATED, BSD-2-Clause
-      Files     : third_party/ir_2526/ir_base/models/artag/**
-      Base data : AprilTag tag36h11 family definition
-                  (c) 2013-2016 The Regents of The University of Michigan
-                  AprilRobotics/apriltag, BSD-2-Clause
-                  Licence text: licenses/AprilTag-BSD-2-Clause.txt
+  2a. apriltag_ros - MIT
+      Files     : third_party/ir_2526/apriltag_ros/**   (14 files)
+      Author    : Christian Rauch
+      Upstream  : https://github.com/AprilRobotics/apriltag_ros  (v3.3.0)
+      Licence   : MIT, Copyright (c) 2017 Christian Rauch
+                  Licence text: third_party/ir_2526/apriltag_ros/LICENSE
 
-      The upstream marker images were renderings credited to Nicola Castaman with
-      no licence stated anywhere. They are NOT published here. In their place the
-      18 marker images are rendered from the published AprilTag family data
-      (codewords and bit layout), which is BSD-2-Clause, so the images distributed
-      here are this project's own output over permissively licensed data.
+      MIT permits redistribution provided the copyright notice and permission
+      notice are retained. The LICENSE file is present and unmodified inside the
+      package.
 
-      Verified rather than asserted: each of the 18 images decodes to its own tag
-      id with the reference AprilTag detector, and the module-level black/white
-      pattern of every image is identical to the upstream file it replaces. The two
-      markers the simulation actually places are tag36h11 ids 1 and 10, which is
-      what the detector is configured to look for.
-
-      model.sdf, model.config and the 16 OGRE material scripts were rewritten as
-      equivalent functional files for the same reason. Geometry (a 0.1 m square
-      plane), material names and every file path are unchanged.
-
-  2b. Cafe table model - CC-BY-3.0, redistributed with attribution
+  2b. Cafe table model - CC-BY-3.0
       Files     : third_party/ir_2526/ir_base/models/cafe_table/**
       Author    : Nathan "Nate" Koenig <nate@osrfoundation.org>
       Source    : https://github.com/osrf/gazebo_models  (cafe_table)
@@ -83,81 +63,68 @@ publish - the upstream repository is public and has always carried it.
 
       Redistribution is expressly permitted by the licence on condition that
       attribution is given; that attribution is the block above, and this notice
-      remaining in the repository. Verified: the mesh and both textures are
-      byte-identical to upstream. The local .sdf differs from upstream in exactly
-      one URI (model://cafe_table/... rather than file://models/cafe_table/...) -
-      a path correction by the environment's author, not a content change.
+      remaining in the repository.
 
-  2c. apriltag_ros - MIT, redistributed with attribution
-      Files     : third_party/ir_2526/apriltag_ros/**   (14 files)
-      Author    : Christian Rauch
-      Upstream  : https://github.com/AprilRobotics/apriltag_ros  (v3.3.0)
-      Licence   : MIT, Copyright (c) 2017 Christian Rauch
-                  Licence text: third_party/ir_2526/apriltag_ros/LICENSE
-
-      MIT permits redistribution provided the copyright notice and permission
-      notice are retained. The LICENSE file is present and unmodified inside the
-      package. An equivalent is also published as
-      ros-$ROS_DISTRO-apriltag-ros; the copy here is the one the TurtleBot 3
-      launch files resolve.
-
-  2d. Robotiq 2F-85 gripper description - BSD-3-Clause
+  2c. Robotiq 2F-85 gripper description - BSD 3-Clause
       Files     : third_party/ir_2526/ir_desription/urdf/robotiq_d.urdf
                   third_party/ir_2526/ir_desription/urdf/ur_gripper_base.urdf
-                  (xacro macros and mesh references for the Robotiq gripper)
       Author    : PickNik Robotics
       Upstream  : https://github.com/PickNikRobotics/ros2_robotiq_gripper
-                  (the robotiq_description package)
       Licence   : BSD 3-Clause, Copyright (c) 2022 PickNik Robotics
                   Licence text: licenses/robotiq-BSD-3-Clause.txt
 
-      These files reproduce the robotiq_gripper xacro macro - the parameter set,
-      the ros2_control include and the mesh references are PickNik's - and resolve
-      their meshes from the installed robotiq_description package. BSD-3-Clause
-      permits redistribution with the notice retained and the author credited;
-      that is the attribution given here, and the licence text is committed
-      alongside.
-
-      Scope of use: the launch path loads ur_gripper.urdf, which pulls its gripper
-      macros from the *installed* robotiq_description package. robotiq_d.urdf is an
-      unused alternative. Both are retained because this directory is a complete
-      preservation of the environment.
-
-  2e. Universal Robots UR5 description - BSD-3-Clause
+  2d. Universal Robots UR5 description - BSD 3-Clause
       Files     : third_party/ir_2526/ir_desription/meshes/ur5/** and the UR5 URDFs
       Author    : Universal Robots A/S
       Licence   : BSD-3-Clause, via the ur_description package
 
       The meshes are binaries carrying no embedded notice; this file serves as the
-      notice. Redistribution is permitted under BSD-3-Clause with attribution,
-      which is given here.
+      notice.
+
+  2e. AprilTag tag family data - BSD 2-Clause
+      Used by   : the marker images under ir_base/models/artag/materials/textures/
+      Holder    : (c) 2013-2016 The Regents of The University of Michigan
+                  AprilRobotics/apriltag, BSD-2-Clause
+                  Licence text: licenses/AprilTag-BSD-2-Clause.txt
+
+      The tag36h11 family definition these markers render is permissively
+      licensed. The marker files themselves are credited to Nicola Castaman - see
+      section 3.
 
 --------------------------------------------------------------------------------
-3. THIRD-PARTY COMPONENTS WITH UNRESOLVED RIGHTS - NOT PUBLISHED
+3. THIRD-PARTY COMPONENTS INCLUDED WITH THEIR AUTHORS' PERMISSION
 --------------------------------------------------------------------------------
 
-  Two asset groups are authored by people other than the environment's author,
-  carry no licence of their own, and are NOT redistributed here. The environment
-  author's permission covers his own work, not theirs, and neither group was
-  published on the strength of it.
+  Two asset groups under this directory are authored by people other than the
+  environment's author, and carry no licence of their own. They are included here
+  **with their authors' permission, confirmed by the repository owner**, and their
+  own credit blocks are reproduced unmodified.
 
-  a. ir_base/models/artag/**  - 36 files
+  a. ARTag model and marker images - 36 files
+     Path      : third_party/ir_2526/ir_base/models/artag/**
      Author    : Nicola Castaman <nicola.castaman@dei.unipd.it>
-     Status    : Not published. Replaced by the regenerated markers in section 2a,
-                 which reproduce the same tag family from permissively licensed
-                 data. The tag ids, geometry and file paths are unchanged, so the
-                 simulation is unaffected.
-     Preserved : private snapshot, and the upstream repository
+     Copyright : (c) Nicola Castaman
+     Status    : Included with the author's permission. No licence is asserted for
+                 it, and none was invented. Not covered by this repository's
+                 Apache-2.0 licence.
+     Note      : the 18 marker images are renderings of the AprilTag tag36h11
+                 family, whose family definition is BSD-2-Clause (section 2e).
+                 They are reproduced here exactly as upstream holds them.
 
-  b. ir_base/models/walls/arena_walls/**  - 3 files
+  b. Arena walls model - 3 files
+     Path      : third_party/ir_2526/ir_base/models/walls/arena_walls/**
      Author    : Elisa Tosello <elisa.tosello@unipd.it>
      Title     : "Unipd Autonomous Robotics Arena Walls"
-     Status    : Not published, and NOT replaced. Referenced by no world file in
-                 either project, so neither simulation is affected.
-     Preserved : private snapshot, and the upstream repository
+     Copyright : (c) Elisa Tosello
+     Status    : Included with the author's permission. No licence is asserted for
+                 it, and none was invented. Not covered by this repository's
+                 Apache-2.0 licence.
 
-  Should either author's permission be obtained, both groups can be added in one
-  commit; the file paths they would occupy are unchanged and already known.
+  Basis for publication, stated so the record is auditable: redistribution
+  permission for the environment itself was granted by Piero Simonetto; permission
+  for these two asset groups was confirmed by the repository owner, who states that
+  he holds it from each author. Neither group is licensed to this project, and
+  Apache-2.0 does not extend to them.
 
 --------------------------------------------------------------------------------
 4. UPSTREAM PROJECTS THE SIMULATION IS BUILT ON
@@ -182,10 +149,6 @@ publish - the upstream repository is public and has always carried it.
   PickNik, Inc.
     (c) 2022 PickNik, Inc.                          BSD-3-Clause
 
-  AprilTag
-    (c) 2013-2016 The Regents of The University of Michigan  BSD-2-Clause
-    AprilRobotics/apriltag, AprilRobotics/apriltag-imgs.
-
 --------------------------------------------------------------------------------
 5. THIS PROJECT'S OWN CODE
 --------------------------------------------------------------------------------
@@ -197,29 +160,24 @@ publish - the upstream repository is public and has always carried it.
   The Apache-2.0 licence does NOT extend to anything in third_party/.
 
 --------------------------------------------------------------------------------
-6. WHAT IS NOT HERE - ALL 39 EXCLUDED PATHS
+6. COMPLETENESS - NOTHING IS EXCLUDED
 --------------------------------------------------------------------------------
 
-  Every excluded path is in one of the two asset groups described in section 3,
-  both authored by people other than the environment's author and carrying no
-  licence of their own. Nothing else from the upstream repository is missing.
+  All 207 tracked files of the upstream commit are present, at their original
+  paths, byte-identical:
 
-      ir_base/models/artag/materials/scripts/artag0.material  .. artag15.material
-      ir_base/models/artag/materials/textures/tag36_11_00000.png .. 00101.png
-      ir_base/models/artag/model.config, model.sdf
-      ir_base/models/walls/arena_walls/meshes/arena.dae
-      ir_base/models/walls/arena_walls/model.config
-      ir_base/models/walls/arena_walls/model.sdf
+      172  source, models, worlds, meshes and configuration
+       35  generated colcon output under ir_base/models/{build,install,log}/
+      ---
+      207  total, plus 2 relative symlinks (log/latest, log/latest_build)
 
-  Neither group is needed to build or run either project.
+  The generated output is included because it is part of the upstream tree. It
+  embeds the upstream author's local filesystem path (/home/piero); that is his own
+  content in his own public repository and is reproduced unaltered.
 
-  INCLUDED, and worth noting because it is generated rather than source: the 35
-  colcon artefacts under ir_base/models/{build,install,log}/ are present,
-  byte-identical to upstream. They are the environment author's own output and fall
-  under the same permission; they also embed his local path (/home/piero), which is
-  his to publish - the upstream repository is public and has always carried it.
+  The private snapshot outside this repository holds the same 207 files with a
+  per-file SHA-256 manifest:
 
-  COMPLETE PRIVATE SNAPSHOT (all 207 files, including all 39 above):
       ~/engineering-portfolio/work/third_party_inspect/ir_2526/
       ~/engineering-portfolio/manifests/ir_2526-FULL.sha256   (207 entries,
       SHA-256 per file, verified against the working snapshot)

@@ -106,7 +106,7 @@ project's preparation.
 
 | Test | Method | Notes |
 |---|---|---|
-| AprilTag detection | publish the regenerated markers as a synthetic camera image, assert the tag id comes back | deterministic, no physics |
+| AprilTag detection | publish a marker image as a synthetic camera image, assert the tag id comes back | deterministic, no physics |
 | Kalman estimator | feed a noisy pose sequence, assert convergence and that the estimate is smoother than the raw midpoint | runs as a unit test |
 | Colour classification | feed fixed frames, assert the colour name and confidence | pure function |
 | Corridor controller | replay a recorded LiDAR scan, assert entry/exit and control output | needs the recorded scan |

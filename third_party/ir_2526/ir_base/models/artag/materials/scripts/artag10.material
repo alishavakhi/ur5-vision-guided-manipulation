@@ -1,6 +1,3 @@
-// AprilTag marker material, OGRE script.
-// Tag image rendered from the AprilTag tag36h11 family definition
-// (AprilRobotics/apriltag, BSD-2-Clause).
 material material/artag10
 {
   technique
@@ -12,8 +9,7 @@ material material/artag10
       specular 0.0 0.0 0.0 1.0 12.5
       texture_unit
       {
-        texture tag36_11_00010.png
-        filtering anisotropic
+        texture ../textures/tag36_11_00010.png
         max_anisotropy 16
         scale 1 1
       }

@@ -464,23 +464,18 @@ third_party/ir_2526/   ir_launch + ir_base + ir_desription
                        @ PieroSimonet/ir_2526   d19ae761
 ```
 
-These are **168 of the 207 tracked files** in the upstream repository. Every one,
+These are **all 207 tracked files** in the upstream repository. Every one —
 including the generated build output under `ir_base/models/{build,install,log}/`,
-is byte-identical to upstream — nothing was renamed, reformatted or edited — and
-each was verified by SHA-256 against the upstream commit after copying.
+the ARTag model and the arena walls — is byte-identical to upstream, at its
+original path. Nothing was renamed, reformatted or edited, and each was verified by
+SHA-256 against the upstream commit after copying: 207/207, 0 mismatches.
 
-The remaining **39** files are not published, and they are the only ones:
-
-| Excluded | Files | Why |
-|---|---|---|
-| `ir_base/models/artag/` | 36 | authored by **Nicola Castaman** with no licence anywhere. Replaced by marker images regenerated from the public BSD-2-Clause AprilTag `tag36h11` family definition — the tag ids, geometry and file paths are unchanged |
-| `ir_base/models/walls/arena_walls/` | 3 | authored by **Elisa Tosello** with no licence. Referenced by no world file, so neither simulation is affected |
-
-> **This is not a byte-for-byte complete copy of the upstream repository, and it is
-> not described as one.** All 207 upstream files are preserved privately outside
-> this repository, with a per-file SHA-256 manifest, and the exact 39 excluded
-> paths are enumerated in
-> [`third_party/ir_2526/README.md`](third_party/ir_2526/README.md).
+> **Nothing is excluded.** This is a byte-for-byte complete copy of the upstream
+> repository at `d19ae761`. Two asset groups inside it — `models/artag`
+> (© Nicola Castaman) and `models/walls/arena_walls` (© Elisa Tosello) — are
+> authored by third parties and carry no licence of their own; they are included
+> with their authors' permission, with their own credit blocks unmodified. See
+> [`third_party/ir_2526/NOTICE`](third_party/ir_2526/NOTICE) section 3.
 
 The environment was written by **Piero Simonetto** (University of Padova), not by
 this project's author, and is redistributed with his permission. It is **not**
@@ -591,11 +586,12 @@ untested system. Nothing below is invented.
 Recorded from reading the code; none of these were changed during preparation.
 
 1. **The environment is preserved complete, but the distribution is inferred.**
-   All 168 upstream source files are included under
+   All 207 upstream files are included under
    [`third_party/ir_2526/`](third_party/ir_2526/), so no external repository has to
-   be cloned. Two third-party asset groups with unresolved rights (39 files) and
-   and the 39 remaining paths are enumerated in
-   [`third_party/ir_2526/README.md`](third_party/ir_2526/README.md).
+   be cloned and nothing is missing. Two third-party asset groups inside it —
+   `models/artag` and `models/walls/arena_walls` — are included with their authors'
+   permission; see [`third_party/ir_2526/NOTICE`](third_party/ir_2526/NOTICE)
+   section 3.
    The distribution is **Jazzy**, inferred from 18 hard-coded `/opt/ros/jazzy`
    mesh paths in the vendored `ur_gripper.urdf` rather than from a declaration.
    This matters most for this project, since the MoveIt 2 and `control_msgs` APIs
@@ -643,7 +639,7 @@ repository. Nothing in the right-hand column was executed here.
 | Node / topic / action names documented in this README | — | verified against source |
 | Secrets and personal data | — | verified absent |
 | Third-party asset licences | — | resolved — marker images regenerated from BSD-2-Clause family data; cafe table verified CC-BY-3.0 and attributed (see [`docs/UPSTREAM_DEPENDENCIES.md`](docs/UPSTREAM_DEPENDENCIES.md)) |
-| Vendored third-party code | — | present and intentional: 168 of 207 upstream files under `third_party/ir_2526/`, each SHA-256-verified byte-identical to `d19ae761`; the 39 excluded are named in `third_party/ir_2526/README.md` |
+| Vendored third-party code | — | present and intentional: **all 207** upstream files under `third_party/ir_2526/`, each SHA-256-verified byte-identical to `d19ae761` |
 
 The C++ node in particular was **read, not compiled** during preparation. Its
 MoveIt 2 and `control_msgs` API usage could not be checked against a real
@@ -702,17 +698,19 @@ It **does not** cover:
   Robotics, **BSD-3-Clause**. Licence text in
   `third_party/ir_2526/licenses/robotiq-BSD-3-Clause.txt`.
 
-Two third-party asset groups are **excluded** because their rights are unresolved:
-`ir_base/models/artag/` (© Nicola Castaman) is replaced by regenerated markers, and
-`ir_base/models/walls/arena_walls/` (© Elisa Tosello) is not included and not
-needed by any world. Both are enumerated in
-[`third_party/ir_2526/README.md`](third_party/ir_2526/README.md).
+Two further third-party asset groups are included **with their authors' permission**:
 
-The marker images under `models/artag/` are **not** third-party material. They are
-rendered by this project from the public AprilTag `tag36h11` family definition
-(AprilRobotics, **BSD-2-Clause**), and are redistributed under that licence with the
-notice in the `NOTICE` and the licence text in
-`third_party/ir_2526/licenses/AprilTag-BSD-2-Clause.txt`.
+- **`third_party/ir_2526/ir_base/models/artag/`** — the ARTag model and its 18 marker
+  images, © **Nicola Castaman**. The renderings derive from the AprilTag `tag36h11`
+  family, whose family definition is BSD-2-Clause
+  (`third_party/ir_2526/licenses/AprilTag-BSD-2-Clause.txt`).
+- **`third_party/ir_2526/ir_base/models/walls/arena_walls/`** — the arena walls,
+  © **Elisa Tosello**.
+
+Neither carries a licence of its own, none was invented, and neither is covered by
+this repository's Apache-2.0 licence. Each author's own credit block in their
+`model.config` is reproduced unmodified. See
+[`third_party/ir_2526/NOTICE`](third_party/ir_2526/NOTICE) section 3.
 - **`docs/reports/`** — the academic report, the authors' own work, included with
   the co-author's consent.
 

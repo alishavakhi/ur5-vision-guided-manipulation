@@ -11,7 +11,7 @@ and the licence status of each part — lives with the code:
 - **[`third_party/ir_2526/README.md`](../third_party/ir_2526/README.md)** — what is
   in the tree, what is deliberately not, and the per-package breakdown
 - **[`third_party/ir_2526/NOTICE`](../third_party/ir_2526/NOTICE)** — attribution
-  and licence status for every component, including the excluded ones
+  and licence status for every component
 - **[`third_party/ir_2526/licenses/`](../third_party/ir_2526/licenses/)** — the full
   text of every licence relied on
 
@@ -26,7 +26,7 @@ Commit date         : 2025-09-10 16:23:42 +0200
 Commit author       : Piero Simonetto <simonetto.piero@gmail.com>
                       University of Padova
 Upstream files      : 207 tracked files
-Included here       : 168 files, SHA-256 verified byte-identical
+Included here       : 207 files - all of them, SHA-256 verified byte-identical
 ```
 
 ## Permission
@@ -48,30 +48,30 @@ which applies only to `src/`, `docs/` and the READMEs.
 
 ## Scope — what that permission does and does not reach
 
-The permission is the author's to give for **his own work**. Two asset groups
-inside the environment belong to other people and carry no licence of their own.
-Neither is published here on the strength of the author's permission, and neither
-is needed to build or run either project.
+## Scope — complete, including two assets held under separate permission
+
+**All 207 tracked upstream files are included. Nothing is excluded.**
+
+Most of the environment is the author's own work, redistributed under his
+permission. Two asset groups inside it belong to other people, carry no licence of
+their own, and are included **with their authors' permission**, their own credit
+blocks reproduced unmodified.
 
 | Asset | Author | Status |
 |---|---|---|
-| `ir_base/models/artag/` (36 files) | **Nicola Castaman** | **Replaced.** The marker images are regenerated from the public BSD-2-Clause AprilTag `tag36h11` family definition. Same tag ids, same geometry, same paths — verified by decoding each marker with the reference detector |
-| `ir_base/models/walls/arena_walls/` (3 files) | **Elisa Tosello** | **Excluded, not replaced.** Referenced by no world file, so nothing is affected |
+| `ir_base/models/artag/` (36 files) | **Nicola Castaman** | Included with the author's permission. The 18 marker images render the AprilTag `tag36h11` family, whose definition is BSD-2-Clause |
+| `ir_base/models/walls/arena_walls/` (3 files) | **Elisa Tosello** | Included with the author's permission. "Unipd Autonomous Robotics Arena Walls" |
+| `ir_base/models/{build,install,log}/` (35 files) | — | Included. Generated colcon output — the environment author's own, covered by the same permission |
 
-168 of the 207 upstream files are included. The 35 colcon build artefacts under
-`ir_base/models/{build,install,log}/` are included — generated output, but the
-environment author's own and covered by the same permission.
+Components with their own licences, also included: `apriltag_ros` (MIT, © 2017
+Christian Rauch), `cafe_table` (CC-BY-3.0, © 2012 Nathan Koenig), the Robotiq
+gripper description (BSD-3-Clause, © 2022 PickNik Robotics) and the UR5 meshes
+(BSD-3-Clause, Universal Robots).
 
-Components whose licences **do** permit redistribution and are included:
-`apriltag_ros` (MIT, © 2017 Christian Rauch), `cafe_table` (CC-BY-3.0, © 2012
-Nathan Koenig), the Robotiq gripper description (BSD-3-Clause, © 2022 PickNik
-Robotics) and the UR5 meshes (BSD-3-Clause, Universal Robots).
-
-> **This is not a byte-for-byte complete copy of the upstream repository, and is
-> not described as one.** The full 207-file snapshot is preserved privately outside
-> this repository with a per-file SHA-256 manifest, and the exact 39 excluded paths
-> are enumerated in [`third_party/ir_2526/NOTICE`](../third_party/ir_2526/NOTICE)
-> section 6.
+> **This is a byte-for-byte complete copy of the upstream repository at
+> `d19ae761`.** All 207 files are present at their original paths, SHA-256 verified
+> against the upstream commit: 0 mismatches. The same snapshot is preserved
+> privately with a per-file manifest.
 
 ## Still required from the system
 

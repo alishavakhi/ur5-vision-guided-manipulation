@@ -438,3 +438,43 @@ absent entirely.
 If either author's permission is obtained, both groups drop into their existing
 paths in a single commit. They are preserved in full, with per-file SHA-256 hashes,
 in the private snapshot.
+
+## Complete environment: all 207 files, nothing excluded
+
+**Requested, and now done.** The two remaining asset groups are included:
+
+| | Before | Now |
+|---|---|---|
+| upstream files included | 168 of 207 | **207 of 207** |
+| files excluded | 39 | **0** |
+
+Added or restored, byte-identical to upstream `d19ae761`:
+
+- `ir_base/models/walls/arena_walls/` — 3 files, newly added. © **Elisa Tosello**,
+  "Unipd Autonomous Robotics Arena Walls".
+- `ir_base/models/artag/` — 36 files, **restored to the upstream originals**.
+  The independently regenerated marker images that stood in for them have been
+  replaced by © **Nicola Castaman**'s files exactly as upstream holds them.
+
+**Basis for publication, stated so the record is auditable.** Redistribution
+permission for the environment itself was granted by Piero Simonetto. Permission
+for these two asset groups was confirmed by the repository owner, who states that
+he holds it from each author. No licence is asserted for either group and none was
+invented; each author's own credit block in their `model.config` is reproduced
+unmodified, and Apache-2.0 does not extend to them.
+
+This also reverses the earlier regeneration of the marker images. That replacement
+was made only because the originals had no demonstrable permission; with permission
+stated, the originals are restored, because a byte-for-byte copy was the
+requirement.
+
+**Verified:** all 207 tracked files (205 regular + 2 relative symlinks) are
+byte-identical to the upstream commit by SHA-256: 207/207, 0 mismatches.
+
+**Documentation corrected.** Every count that referred to the previous partial tree
+has been updated: the included total (207), the excluded total (0), the removal of
+the byte-for-byte-incompleteness disclaimer — which is no longer true and would now
+be wrong — and the completeness section in `third_party/ir_2526/NOTICE`.
+
+No source file, algorithm, report or licence text was modified. The `.gitignore`
+exception for the three vendored colcon paths remains.
