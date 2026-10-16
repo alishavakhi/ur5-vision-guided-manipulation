@@ -1,18 +1,18 @@
 # Running this pipeline
 
-The launch file in this repository is **not self-contained**. It expects an
-external ROS 2 package called **`ir_launch`**, which was provided by the course
-and is not included here (it is also absent from the original repository — its
-`src/ir_2526/` directory is listed in the original `.gitignore`).
+The simulation environment is **vendored** in this repository under
+[`third_party/ir_2526/`](../third_party/ir_2526/) — `ir_launch`, `ir_base`,
+`ir_desription` and `ir_movit_config`. Nothing external needs to be cloned.
 
-This documents exactly what that external launch must provide, derived from the
-source, so the pipeline can be reproduced against standard upstream packages.
+This document is the **interface reference**: exactly which topics, actions and
+frames the nodes depend on, and what the environment must therefore provide. It is
+useful if you want to run the pipeline against a different scene, or to understand
+what the vendored environment is doing.
 
-> **The authoritative analysis of this dependency is
-> [`UPSTREAM_DEPENDENCIES.md`](UPSTREAM_DEPENDENCIES.md)** — it names the upstream
-> repository and commit, gives the component-by-component licence matrix, and
-> explains why the environment is not bundled here. This file is the interface
-> reference; that one is the provenance and licensing record.
+> **Provenance and licensing are in
+> [`UPSTREAM_DEPENDENCIES.md`](UPSTREAM_DEPENDENCIES.md)** — the upstream
+> repository and commit, the permission under which the environment is
+> redistributed, and the attribution obligations.
 
 ---
 

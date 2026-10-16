@@ -213,6 +213,53 @@ the full system dependency list including `dt-apriltags`, `colcon` build steps,
 simulation startup, and a step-by-step description of what a successful run looks
 like.
 
+## 8. Simulation environment vendored — the repository is now self-contained
+
+Following the author's permission, the simulation environment is now included in
+this repository under `third_party/ir_2526/`. Cloning the external repository is
+no longer required.
+
+**Added** (136 files, byte-identical to upstream):
+
+```
+third_party/ir_2526/README.md        provenance, licence status, what's included
+third_party/ir_2526/NOTICE           attribution for every author and project
+third_party/ir_2526/ir_launch/       assignment_2.launch.py
+third_party/ir_2526/ir_base/         world, params, models
+third_party/ir_2526/ir_desription/   UR5 + Robotiq description and meshes
+third_party/ir_2526/ir_movit_config/ MoveIt 2 configuration and controllers
+```
+
+**Deliberately not copied:**
+
+| Excluded | Why |
+|---|---|
+| `models/build`, `models/install`, `models/log` | colcon build artefacts accidentally committed upstream |
+| `models/docks`, `models/objects`, `models/walls` | not referenced by the world; excluding them also limits third-party exposure, since `arena_walls` is credited to a further author |
+| `apriltag_ros` | pristine upstream 3.3.0 (MIT); this project uses `dt_apriltags` instead, so it would be dead weight |
+
+**Integrity:** all 136 files were hashed against the upstream snapshot after
+copying and every one is identical. No header, copyright notice or licence
+declaration was altered. Upstream package names — including the misspelled
+`ir_desription` — are preserved, because the launch files resolve them by name.
+
+**Licence boundary:** the root `LICENSE` (Apache-2.0) now explicitly states that
+it covers only `src/`, `docs/` and the READMEs, and **not** `third_party/`. No
+licence was invented for the vendored material — its status is "redistributed
+with the author's permission, copyright remains with the original authors".
+
+**Open items:** these files inside the required set are credited to other authors
+and carry no stated licence — `models/artag` (Nicola Castaman), `models/cafe_table`
+(Nate Koenig / Open Robotics) and `ir_desription/urdf/robotiq_d.urdf` (Robotiq).
+The author's permission covers his own work; whether it extends to those is an
+open question, recorded in `docs/UPSTREAM_DEPENDENCIES.md`. The UR5 meshes are
+**not** in that category — they are BSD-3-Clause from `ur_description` and are
+redistributable with the attribution supplied in `NOTICE`.
+
+**Also noted:** the world fetches one model from Gazebo Fuel
+(`OpenRobotics/models/Sun`) on first run. Gazebo caches it, so it is a one-time
+network requirement and it is not redistributed here.
+
 ## Publication blockers — remaining
 
 Only one blocker is left, and it is not a technical one:

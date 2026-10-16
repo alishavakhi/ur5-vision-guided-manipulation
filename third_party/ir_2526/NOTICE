@@ -1,0 +1,129 @@
+NOTICE
+======
+
+This file records the origin, authorship and licence status of the material
+vendored in this directory. It is provided so that attribution is unambiguous and
+so that the boundary between the project's own work and third-party work is
+clear.
+
+--------------------------------------------------------------------------------
+1. SIMULATION ENVIRONMENT — vendored with permission
+--------------------------------------------------------------------------------
+
+  Source      : https://github.com/PieroSimonet/ir_2526
+  Commit      : d19ae7613e50112f9bcd8bd995bb4572ef71b821
+  Date        : 2025-09-10
+  Author      : Piero Simonetto <simonetto.piero@gmail.com>
+                University of Padova
+
+  Files       : third_party/ir_2526/ir_launch/**
+                third_party/ir_2526/ir_base/**          (except models/artag and
+                                                         models/cafe_table)
+                third_party/ir_2526/ir_desription/**
+                third_party/ir_2526/ir_movit_config/**
+
+  Copyright   : (c) Piero Simonetto
+
+  Status      : Redistributed with the author's permission, granted on the basis
+                that attribution is maintained. The original repository carries
+                no licence file and three of its packages declare
+                "<license>TODO: License declaration</license>", so no licence is
+                asserted here. All rights remain with the author; the only right
+                granted is redistribution in this repository.
+
+  The files are byte-identical to the upstream commit above. No header,
+  copyright notice or licence declaration has been altered or removed.
+
+--------------------------------------------------------------------------------
+2. THIRD-PARTY MATERIAL INSIDE THE VENDORED ENVIRONMENT
+--------------------------------------------------------------------------------
+
+  The following components are NOT authored by Piero Simonetto. Their authorship
+  is recorded in each model's own model.config or in the upstream project's
+  licence, and each is preserved unmodified.
+
+  2a. ARTag models and AprilTag textures
+      Files     : third_party/ir_2526/ir_base/models/artag/**
+      Author    : Nicola Castaman <nicola.castaman@dei.unipd.it>
+      Copyright : (c) Nicola Castaman
+      Status    : No licence stated. Included as part of the upstream
+                  environment, with the same permission as above. Not covered by
+                  this repository's Apache-2.0 licence.
+
+  2b. Cafe table model
+      Files     : third_party/ir_2526/ir_base/models/cafe_table/**
+      Author    : Nate Koenig <nate@osrfoundation.org>, Open Robotics
+      Copyright : (c) Nate Koenig / Open Robotics
+      Status    : No licence stated in model.config. This model originates from
+                  the Gazebo model collection, whose models are generally
+                  published under a permissive or CC-BY licence, but that has
+                  not been confirmed for this copy. Not covered by this
+                  repository's Apache-2.0 licence.
+
+  2c. UR5 visual and collision meshes
+      Files     : third_party/ir_2526/ir_desription/meshes/ur5/**
+      Origin    : the Universal Robots UR5 description package, ur_description
+      Copyright : (c) Universal Robots A/S
+      Licence   : BSD-3-Clause
+      Status    : Permissively licensed upstream. Redistribution is permitted
+                  provided the copyright notice and licence text are retained.
+                  The meshes are binaries and carry no embedded notice, so this
+                  NOTICE serves as the required attribution.
+
+  2d. Robotiq gripper description
+      Files     : third_party/ir_2526/ir_desription/urdf/robotiq_d.urdf
+      Origin    : Robotiq gripper description
+      Status    : Redistributed as part of the upstream environment. The
+                  originating licence should be confirmed before reuse.
+
+--------------------------------------------------------------------------------
+3. UPSTREAM PROJECTS THE SIMULATION IS BUILT ON
+--------------------------------------------------------------------------------
+
+  The upstream launch files are themselves derived from third-party projects,
+  whose licences permit redistribution provided their notices are retained.
+  Those notices are intact inside the files themselves.
+
+  Nav2 / navigation2
+    (c) 2023 Open Source Robotics Foundation        Apache License 2.0
+    (c) 2024 Open Navigation LLC                    Apache License 2.0
+
+  Universal Robots ROS 2 bringup
+    (c) 2021-2022 Stogl Robotics Consulting UG      BSD-3-Clause
+    Author: Denis Stogl
+
+  MoveIt / FZI Forschungszentrum Informatik
+    (c) 2024 FZI Forschungszentrum Informatik       BSD-3-Clause
+    Author: Felix Exner
+
+  PickNik, Inc.
+    (c) 2022 PickNik, Inc.                          BSD-3-Clause
+
+  Robotiq
+    Gripper description used by the UR5 end effector.
+
+  AprilTag
+    AprilRobotics, BSD-2-Clause. The tag36h11 family images used by the ARTag
+    models are generated from the AprilTag family definitions.
+
+--------------------------------------------------------------------------------
+4. THIS REPOSITORY'S OWN CODE
+--------------------------------------------------------------------------------
+
+  The project's own source code, documentation and configuration — everything
+  outside third_party/ — is licensed under Apache-2.0. See the LICENSE file at
+  the repository root.
+
+  The Apache-2.0 licence does NOT extend to anything in third_party/.
+
+--------------------------------------------------------------------------------
+5. EXTERNAL RUNTIME DEPENDENCY NOT VENDORED
+--------------------------------------------------------------------------------
+
+  The simulation world includes a model fetched from Gazebo Fuel:
+
+    https://fuel.gazebosim.org/1.0/OpenRobotics/models/Sun
+
+  Gazebo caches Fuel models after their first download, so this requires network
+  access once. It is an Open Robotics model under its own licence and is not
+  redistributed here.

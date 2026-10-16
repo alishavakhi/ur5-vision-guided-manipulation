@@ -319,9 +319,19 @@ ur5-vision-guided-manipulation/
 │       └── Group29_Assignment2_Report.pdf
 └── src/                        <- colcon workspace root
     └── group29_assignment_2/
+
+third_party/
+└── ir_2526/                    vendored simulation environment
+    ├── README.md               provenance + licence status
+    ├── NOTICE                  attribution for every author and upstream project
+    ├── ir_launch/              simulation entry point
+    ├── ir_base/                world, params, AprilTag + table models
+    ├── ir_desription/          UR5 + Robotiq description and meshes
+    └── ir_movit_config/        MoveIt 2 configuration and controllers
 ```
 
-The repository root **is** the colcon workspace.
+The repository root **is** the colcon workspace, so `colcon build` is run from
+the root and picks up both `src/` and `third_party/`.
 
 ## Technologies and dependencies
 
@@ -377,35 +387,24 @@ pip install dt-apriltags          # the pure-Python AprilTag detector
 
 ### 3. Get the code and build
 
+This repository **is** the colcon workspace — the project's package lives in
+`src/` and the vendored simulation environment in `third_party/ir_2526/`.
+
 ```bash
-mkdir -p ~/ros2_ws/src && cd ~/ros2_ws/src
-git clone https://github.com/alishavakhi/ur5-vision-guided-manipulation.git
+git clone https://github.com/alishavakhi/ur5-vision-guided-manipulation.git ~/ros2_ws
 cd ~/ros2_ws
 source /opt/ros/$ROS_DISTRO/setup.bash
-rosdep install --from-paths src --ignore-src -r -y
+rosdep install --from-paths src third_party --ignore-src -r -y
 colcon build --symlink-install
 source install/setup.bash
 ```
 
-The repository root is the colcon workspace root. `colcon build` compiles the
-C++ `manipulation_node` and installs the three Python nodes.
-
-### 4. The simulation environment
-
-The UR5 description, MoveIt 2 configuration, controllers, world and bridge
-configuration come from a separate third-party repository that is **not bundled
-here** for licensing reasons — see
-**[`docs/UPSTREAM_DEPENDENCIES.md`](docs/UPSTREAM_DEPENDENCIES.md)** for the full
-explanation, the exact upstream commit, and what would be required to make this
-repository self-contained.
-
-Until that is resolved, clone it alongside this repository:
+`colcon` discovers packages recursively, so this builds the project's package,
+the vendored environment and the vendored MoveIt 2 configuration. To build only
+the project's own code:
 
 ```bash
-cd ~/ros2_ws/src
-git clone https://github.com/PieroSimonet/ir_2526.git
-cd ir_2526 && git checkout d19ae7613e50112f9bcd8bd995bb4572ef71b821
-cd ~/ros2_ws && colcon build --symlink-install && source install/setup.bash
+colcon build --symlink-install --packages-select group29_assignment_2
 ```
 
 > **ROS 2 distribution.** As with the companion repository, no distribution is
@@ -413,6 +412,35 @@ cd ~/ros2_ws && colcon build --symlink-install && source install/setup.bash
 > been guessed**. This matters more here than there: MoveIt 2 and
 > `control_msgs/GripperCommand` APIs have both shifted between Humble and Jazzy.
 > See [Reproducibility status](#reproducibility-status).
+
+### 4. The simulation environment — vendored
+
+No external repository needs to be cloned. The UR5 and Robotiq description, the
+MoveIt 2 configuration, the controller configuration, the Gazebo world and the
+ROS–Gazebo bridge config are all included under
+[`third_party/ir_2526/`](third_party/ir_2526/), vendored at the exact upstream
+commit this project was verified against:
+
+```
+third_party/ir_2526/   ir_launch + ir_base + ir_desription + ir_movit_config
+                       @ PieroSimonet/ir_2526 d19ae761
+```
+
+These files were written by **Piero Simonetto** (University of Padova), not by
+this project's author, and are redistributed with his permission. They are
+**not** covered by this repository's Apache-2.0 licence. Authorship, the exact
+provenance, the licence status of every component and the build instructions are
+documented in [`third_party/ir_2526/README.md`](third_party/ir_2526/README.md)
+and [`third_party/ir_2526/NOTICE`](third_party/ir_2526/NOTICE); the reasoning and
+the full component matrix are in
+[`docs/UPSTREAM_DEPENDENCIES.md`](docs/UPSTREAM_DEPENDENCIES.md).
+
+Every vendored file is byte-identical to upstream — no header, copyright notice
+or licence declaration was altered.
+
+> **One-time network access:** the world includes a model fetched from Gazebo
+> Fuel (`OpenRobotics/models/Sun`). Gazebo caches it after the first download, so
+> it is required once and then works offline. It is not redistributed here.
 
 ## Running the system
 
@@ -600,11 +628,22 @@ Licensed under **Apache-2.0** — see [`LICENSE`](LICENSE). The original package
 already carried this licence and declaration; it has been preserved.
 
 **Scope of the licence:** Apache-2.0 covers the source code, configuration and
-documentation in this repository. The academic report in
-[`docs/reports/`](docs/reports/) is the authors' own work, included with the
-co-author's consent. No third-party code is vendored: MoveIt 2, `dt_apriltags`,
-OpenCV, `cv_bridge`, the UR5 description packages and Gazebo are consumed as
-installed upstream packages under their own licences.
+documentation in this repository — that is, `src/`, `docs/` and the READMEs.
+
+It **does not** cover:
+
+- **`third_party/ir_2526/`** — the vendored simulation environment, written by
+  **Piero Simonetto** and redistributed with his permission. Copyright remains
+  with the original authors; see
+  [`third_party/ir_2526/NOTICE`](third_party/ir_2526/NOTICE). Within it,
+  `models/artag` is © Nicola Castaman, `models/cafe_table` is © Nate Koenig /
+  Open Robotics, and the UR5 meshes are © Universal Robots under BSD-3-Clause.
+- **`docs/reports/`** — the academic report, the authors' own work, included with
+  the co-author's consent.
+
+No third-party code is vendored outside `third_party/`: MoveIt 2, `dt_apriltags`,
+OpenCV, `cv_bridge`, `ur_description` and Gazebo are consumed as installed
+upstream packages under their own licences.
 
 The full academic report is in
 [`docs/reports/Group29_Assignment2_Report.pdf`](docs/reports/Group29_Assignment2_Report.pdf).
