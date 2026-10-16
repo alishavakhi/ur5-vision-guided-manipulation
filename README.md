@@ -86,11 +86,12 @@ Everything runs in **simulation** on a UR5 arm with a Robotiq 85 gripper.
 Public video folder:
 **<https://drive.google.com/drive/folders/1hunotXlMFh6AQY6Q9B9w4cY3GzINZ1f5>**
 
-A real transform tree captured during a run is included as
-[`docs/figures/tf_tree_ur5_run.png`](docs/figures/tf_tree_ur5_run.png) (source:
-ROS 2 `view_frames`). It shows the UR5 base, inertia and Robotiq 85 gripper
-frames live at runtime — evidence that the arm model and the gripper chain were
-correctly connected when the pipeline ran.
+A real transform tree captured during a run is included below (source: ROS 2
+`view_frames`). It shows the UR5 base, inertia and Robotiq 85 gripper frames live
+at runtime — evidence that the arm model and the gripper chain were correctly
+connected when the pipeline ran.
+
+![Transform tree captured during a run, showing the UR5 base, inertia and Robotiq 85 gripper frames](docs/figures/tf_tree_ur5_run.png)
 
 No rviz or camera screenshots exist in the original repository; none were
 invented for this one. The colour classifier's output *is* observable at runtime
