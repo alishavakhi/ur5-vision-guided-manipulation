@@ -3,13 +3,18 @@
 <package format="3">
   <name>group29_assignment_2</name>
   <version>0.0.0</version>
-  <description>Manipulation node for Assignment 2</description>
+  <description>
+    Vision-guided UR5 cube swapping. AprilTag pose estimation, HSV ring-band
+    colour classification, pose/colour fusion, and a MoveIt 2 pick-and-place
+    sequence driven through a control_msgs GripperCommand action.
+  </description>
 
-  <maintainer email="TODO@todo.com">TODO</maintainer>
+  <maintainer email="45035448+alishavakhi@users.noreply.github.com">Ali Shavakhi</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <!-- C++ node (manipulation_node) -->
   <depend>rclcpp</depend>
   <depend>moveit_ros_planning_interface</depend>
   <depend>geometry_msgs</depend>
@@ -17,6 +22,21 @@
   <depend>control_msgs</depend>
   <depend>tf2</depend>
   <depend>tf2_geometry_msgs</depend>
+  <!-- moveit_msgs: CollisionObject / Constraints in manipulation_node.cpp -->
+  <depend>moveit_msgs</depend>
+  <!-- shape_msgs: SolidPrimitive for the cube collision boxes -->
+  <depend>shape_msgs</depend>
+
+  <!-- Python nodes (tag_detector / color_detector / cube_fusion) -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <!-- dt_apriltags is a pip package, not a rosdep key: pip install dt-apriltags -->
+  <exec_depend>python3-dt-apriltags</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
