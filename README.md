@@ -34,24 +34,26 @@ and executes a constraint-aware pick-and-place sequence.
 
 ---
 
-## Overview and objectives
+## Overview
 
-Manipulation pipelines break in two places: when perception is wrong about *where*
-something is, and when motion planning ignores what else is in the scene. This
-project addresses both by splitting the problem into a perception subsystem that
-produces a stable, timestamped answer about each cube, and a manipulation
-subsystem that plans around a collision scene which it keeps in sync with reality.
+A vision-guided manipulation system that lets a simulated **UR5** arm
+autonomously **swap two AprilTag-labelled cubes**, using only an RGB camera to
+determine where they are and what colour they are.
 
-The objectives were to:
+The engineering problem is split in two, deliberately. Perception is wrong about
+*where* things are, and motion planning ignores *what else* is in the scene —
+these fail differently and are better handled separately. So the system
+implements a perception subsystem that produces a stable, timestamped answer about
+each cube, and a manipulation subsystem that plans around a collision scene it
+keeps in sync with reality. They meet at a single pose/colour interface.
 
-1. detect two AprilTags and recover each cube's 6-DoF pose from a single RGB
-   camera,
-2. determine each cube's **colour** from the image region around its tag,
-3. fuse pose and colour into one stable interface a controller can consume,
-4. execute a full **cube swap** — two pick-and-place operations — with MoveIt 2,
-   and
-5. keep the planner aware of the cubes as **collision objects** that move as the
-   task progresses.
+1. 6-DoF cube pose recovery from a single RGB camera via AprilTag detection.
+2. Colour determination from the image region around each tag.
+3. Fusion of pose and colour into one regularly-updated interface a controller
+   can consume, with explicit staleness handling.
+4. A full **cube swap** — two pick-and-place operations through a buffer
+   location — executed with MoveIt 2.
+5. A planning scene that tracks the cubes as collision objects as they move.
 
 Everything runs in **simulation** on a UR5 arm with a Robotiq 85 gripper.
 
@@ -308,6 +310,7 @@ ur5-vision-guided-manipulation/
 ├── CONTRIBUTORS.md
 ├── docs/
 │   ├── CHANGES.md              every edit made during preparation
+│   ├── UPSTREAM_DEPENDENCIES.md  provenance + licensing of the simulation env
 │   ├── RUNNING.md              what the external launch must provide
 │   ├── AI_USAGE_DISCLOSURE.md  carried over from the report
 │   ├── figures/
@@ -342,42 +345,113 @@ omitted** — including `rclpy`, `sensor_msgs`, `std_msgs`, `tf2_ros`, `cv_bridg
 
 ## Installation and build
 
-```bash
-# 1. ROS 2, MoveIt 2, and the vision dependencies
-sudo apt install ros-$ROS_DISTRO-moveit ros-$ROS_DISTRO-cv-bridge \
-                 ros-$ROS_DISTRO-vision-opencv python3-opencv python3-numpy
-pip install dt-apriltags          # not a rosdep key
+### 1. System prerequisites
 
-# 2. This workspace
+| Requirement | Notes |
+|---|---|
+| Ubuntu | 22.04 (ROS 2 Humble) or 24.04 (ROS 2 Jazzy) — see the distribution note below |
+| ROS 2 desktop | `ros-$ROS_DISTRO-desktop` |
+| MoveIt 2 | `moveit`, which brings `moveit_ros_planning_interface` and the planning scene tooling |
+| ros2_control | `ros2-control`, `ros2-controllers`, `controller-manager` |
+| Vision | `cv-bridge`, `vision-opencv`, `python3-opencv`, `python3-numpy` |
+| AprilTag (Python) | `dt-apriltags` via pip — **not** a rosdep key |
+| Gazebo | `ros-gz` |
+
+### 2. Install the system dependencies
+
+```bash
+# ROS 2 itself, following the official instructions for your Ubuntu version:
+#   https://docs.ros.org/en/ros2_documentation/
+sudo apt update
+sudo apt install -y \
+  ros-$ROS_DISTRO-desktop \
+  ros-$ROS_DISTRO-moveit \
+  ros-$ROS_DISTRO-ros2-control ros-$ROS_DISTRO-ros2-controllers \
+  ros-$ROS_DISTRO-controller-manager \
+  ros-$ROS_DISTRO-cv-bridge ros-$ROS_DISTRO-vision-opencv \
+  ros-$ROS_DISTRO-ros-gz \
+  python3-opencv python3-numpy python3-colcon-common-extensions
+
+pip install dt-apriltags          # the pure-Python AprilTag detector
+```
+
+### 3. Get the code and build
+
+```bash
+mkdir -p ~/ros2_ws/src && cd ~/ros2_ws/src
 git clone https://github.com/alishavakhi/ur5-vision-guided-manipulation.git
-cd ur5-vision-guided-manipulation
+cd ~/ros2_ws
 source /opt/ros/$ROS_DISTRO/setup.bash
 rosdep install --from-paths src --ignore-src -r -y
 colcon build --symlink-install
 source install/setup.bash
 ```
 
-> **ROS 2 distribution:** as with the companion repository, no distribution is
+The repository root is the colcon workspace root. `colcon build` compiles the
+C++ `manipulation_node` and installs the three Python nodes.
+
+### 4. The simulation environment
+
+The UR5 description, MoveIt 2 configuration, controllers, world and bridge
+configuration come from a separate third-party repository that is **not bundled
+here** for licensing reasons — see
+**[`docs/UPSTREAM_DEPENDENCIES.md`](docs/UPSTREAM_DEPENDENCIES.md)** for the full
+explanation, the exact upstream commit, and what would be required to make this
+repository self-contained.
+
+Until that is resolved, clone it alongside this repository:
+
+```bash
+cd ~/ros2_ws/src
+git clone https://github.com/PieroSimonet/ir_2526.git
+cd ir_2526 && git checkout d19ae7613e50112f9bcd8bd995bb4572ef71b821
+cd ~/ros2_ws && colcon build --symlink-install && source install/setup.bash
+```
+
+> **ROS 2 distribution.** As with the companion repository, no distribution is
 > declared anywhere in the original source, launch files or report. It has **not
-> been guessed**. Note that `nav2_msgs` / MoveIt 2 APIs and
-> `control_msgs/GripperCommand` have shifted between Humble and Jazzy, so this
-> matters. See [Reproducibility status](#reproducibility-status).
+> been guessed**. This matters more here than there: MoveIt 2 and
+> `control_msgs/GripperCommand` APIs have both shifted between Humble and Jazzy.
+> See [Reproducibility status](#reproducibility-status).
 
 ## Running the system
 
-The launch file expects an external **`ir_launch`** package that starts Gazebo,
-the UR5 and MoveIt 2 — course-provided and **not** included here. See
-[`docs/RUNNING.md`](docs/RUNNING.md).
-
-With `ir_launch` available:
-
 ```bash
+# Gazebo, the UR5, MoveIt 2 and the controller stack
+ros2 launch ir_launch assignment_2.launch.py
+
+# in a second terminal — this project's perception and manipulation nodes
 ros2 launch group29_assignment_2 assignment2.launch.py
 ```
 
 The launch file starts the perception nodes with `use_sim_time: true` and
 schedules `manipulation_node` **2 seconds later** via `TimerAction`, giving the
 perception stack time to publish before the planner starts asking for cube poses.
+
+### What to expect
+
+A successful run looks like this:
+
+1. Gazebo opens with the UR5 and the two AprilTag-labelled cubes; MoveIt 2 comes
+   up with the `ir_arm` planning group and the gripper controller advertises
+   `/gripper_controller/gripper_cmd`.
+2. `tag_detector_node` begins publishing poses on `/tag_1/pose_base` and
+   `/tag_10/pose_base`, and corners on `/tag_<id>/corners`.
+3. `color_detector_node` classifies each cube's colour from the ring around its
+   tag, publishing `/tag_<id>/color` (name), `/color_conf` (confidence) and the
+   raw `/color_rgb` / `/color_hsv` values.
+4. `cube_fusion_node` logs a line per cube per second — colour, confidence, RGB,
+   HSV and XYZ — and republishes `/cube_a_pose` and `/cube_b_pose` at 10 Hz.
+5. `manipulation_node` waits for both cube poses, adds the cube collision objects
+   to the planning scene, and executes the swap: cube A to the buffer, cube B onto
+   A's old position, then cube A from the buffer onto B's old position.
+6. `Process finished. Shutting down.` is the log line that indicates the sequence
+   completed as intended.
+
+The recorded demonstration is linked under [Demo](#demo) above.
+
+[`docs/RUNNING.md`](docs/RUNNING.md) documents every topic, action and frame the
+nodes depend on, and the hard-coded `ir_arm` planning group.
 
 ## Configuration
 
@@ -403,38 +477,51 @@ Fusion and detection parameters: `pose_timeout_sec` (0.6), `backup_hold_sec`
 
 ## Results
 
-Stated precisely, because this project produced a **binary outcome** rather than a
-scored one.
+### Verification status — read this first
 
-**Evidenced:**
+Two distinct things, and conflating them would be misleading:
+
+| | Status |
+|---|---|
+| **The original implementation, in the original simulation environment** | **Tested and working.** The full cube-swap sequence executed in Gazebo. This is evidenced by the recorded demonstration, the transform tree captured live during a run (below), and the results written up in the accompanying report. |
+| **A fresh build and run of *this* repository** | **Not performed.** Neither ROS 2 nor MoveIt 2 was available on the machine where this repository was prepared, so `colcon build` (including the C++ node) and a self-contained launch have not been executed here. |
+
+So: this is a working, tested system whose *packaging* is unverified — not an
+untested system. Nothing below is invented.
+
+### What the original run demonstrated
 
 - The full swap sequence executes in simulation — the task's goal, a successful
-  two-cube exchange, is reported as achieved in the accompanying report.
-- The perception subsystem produced stable cube poses: the fusion node's
-  last-known-good window exists precisely because detections do drop out, and the
-  planner treats a 3 s-old pose as usable.
+  two-cube exchange, was achieved and recorded.
+- The perception subsystem produced stable cube poses: the fusion node exists
+  precisely because detections do drop out, and the planner treats a 3 s-old pose
+  as usable.
 - The classifier reports a **numeric confidence** (hue-histogram peak fraction) for
-  every decision, and logs RGB/HSV means continuously — so its behaviour is
+  every decision and logs RGB/HSV means continuously, so its behaviour is
   inspectable rather than a black box.
 - The transform tree in [`docs/figures/`](docs/figures/) was captured live.
 
-**Not measured — and not claimed:**
+### Not measured — and not claimed
 
 - No success rate, no cycle time, no planning time, no colour-classification
   accuracy and no positional error figure exists anywhere in the source, the
   report or the git history. None are invented here.
-- Colour accuracy in particular would be easy to quantify (the classifier already
-  emits a confidence per frame, and the tag ID determines the ground-truth
-  colour), which makes it the most valuable next measurement. It is listed under
+- Colour accuracy in particular would be easy to quantify — the classifier already
+  emits a per-frame confidence, and the tag ID determines the ground-truth colour —
+  which makes it the most valuable next measurement. It is listed under
   [Known limitations](#known-limitations).
 
 ## Known limitations
 
 Recorded from reading the code; none of these were changed during preparation.
 
-1. **External `ir_launch` dependency.** The launch file is not self-contained —
-   it delegates Gazebo, the UR5 model and MoveIt 2 bringup to a course package
-   that is not included. See [`docs/RUNNING.md`](docs/RUNNING.md).
+1. **The simulation environment is an external dependency.** The launch file is not
+   self-contained — it delegates Gazebo, the UR5 model and MoveIt 2 bringup to
+   course packages that are **not** bundled, because the upstream repository is
+   unlicensed. [`docs/UPSTREAM_DEPENDENCIES.md`](docs/UPSTREAM_DEPENDENCIES.md)
+   gives the provenance, the full licensing matrix and the two routes to making
+   this repository self-contained;
+   [`docs/RUNNING.md`](docs/RUNNING.md) is the interface reference.
 2. **The manipulation sequence is hard-coded to the scene.** Grasp offsets,
    the buffer location (`loc_Safe` = cube A offset by −0.07, +0.1, +0.15 m), the
    two waypoints, the home joint values and the collision-box dimensions are all
@@ -458,20 +545,29 @@ Recorded from reading the code; none of these were changed during preparation.
 
 ## Reproducibility status
 
-| Check | Status |
-|---|---|
-| Python syntax of the three perception nodes | **verified** (`python3 -m py_compile`) |
-| `package.xml` well-formed and consistent | **verified** (parsed; dependencies cross-checked against imports) |
-| `CMakeLists.txt` targets match the files present | **verified by inspection** — `manipulation_node` (C++) plus three installed Python programs |
-| Node/topic/action names in this README | **verified** against source |
-| `colcon build` (including the C++ node) | **NOT TESTED** — no ROS 2 or MoveIt 2 installation was available |
-| Launching the simulation | **NOT TESTED** |
-| ROS 2 distribution | **UNDETERMINED** — not declared anywhere in the original repository |
-| Reported swap success | from the report and video, not independently reproduced |
-| No quantitative results | none exist to reproduce |
+Two columns, because the answer differs: what the original authors verified in the
+original environment, and what was verified during preparation of *this*
+repository. Nothing in the right-hand column was executed here.
 
-The C++ node in particular was **read, not compiled**. Its MoveIt 2 and
-`control_msgs` API usage could not be checked against a real toolchain.
+| Check | In the original environment | In this repository |
+|---|---|---|
+| `colcon build` (C++ node) | built and ran | **NOT RUN** — no ROS 2 / MoveIt 2 on the preparation host |
+| Launching in Gazebo | ran, swap sequence completed and recorded | **NOT RUN** here |
+| Cube-swap sequence | completed in the recorded run | not re-run |
+| Colour classification | worked in the recorded run | not re-run |
+| Transform tree | captured live | not re-captured |
+| ROS 2 distribution | worked on the course's distribution, **which is not declared anywhere** | still undetermined |
+| Dependencies declared in `package.xml` | most were missing | **fixed** (see `docs/CHANGES.md`) |
+| Python syntax of the three perception nodes | — | verified (`py_compile`) |
+| `package.xml` well-formed, deps cross-checked against imports | — | verified |
+| `CMakeLists.txt` targets match the files present | — | verified by inspection |
+| Node / topic / action names documented in this README | — | verified against source |
+| Secrets, personal data, vendored code | — | verified absent |
+
+The C++ node in particular was **read, not compiled** during preparation. Its
+MoveIt 2 and `control_msgs` API usage could not be checked against a real
+toolchain, and that remains the single largest gap between this repository and the
+environment it originally ran in.
 
 ## My contribution
 

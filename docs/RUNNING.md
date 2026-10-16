@@ -8,6 +8,12 @@ and is not included here (it is also absent from the original repository — its
 This documents exactly what that external launch must provide, derived from the
 source, so the pipeline can be reproduced against standard upstream packages.
 
+> **The authoritative analysis of this dependency is
+> [`UPSTREAM_DEPENDENCIES.md`](UPSTREAM_DEPENDENCIES.md)** — it names the upstream
+> repository and commit, gives the component-by-component licence matrix, and
+> explains why the environment is not bundled here. This file is the interface
+> reference; that one is the provenance and licensing record.
+
 ---
 
 ## What the launch file calls

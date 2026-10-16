@@ -162,6 +162,57 @@ It originally pointed at the private original `alishavakhi/ws_29_assignments`,
 which would have returned 404 for a public reader. The demonstration-video link
 annotation is untouched and still resolves.
 
+## 7. Self-contained simulation investigation, and testing-documentation correction
+
+**Investigated:** whether the simulation environment could be bundled so this
+repository runs without cloning the course repository
+(`github.com/PieroSimonet/ir_2526`).
+
+**Outcome: it cannot lawfully be bundled.** The upstream repository carries
+**no licence at all** — GitHub reports `license: null`, there is no `LICENSE`
+file, and `ir_base`, `ir_launch` and `ir_desription` all declare
+`<license>TODO: License declaration</license>`. Of the components this project
+needs, **46 source files and 14 mesh assets are unlicensed** — the MoveIt
+configuration, the SRDF, the UR5 and Robotiq description, the meshes, the Gazebo
+world and the bridge configuration. Only three launch files and a `package.xml`
+are BSD-3-Clause, and those alone would not make the project runnable.
+
+A partial bundle of just the BSD-3-Clause files was considered and **rejected**:
+`assignment_2.launch.py` immediately resolves `ir_movit_config` and
+`ir_desription`, so it would fail at once, producing a repository that looks
+self-contained but crashes. That is worse than a documented dependency.
+
+**Note also:** `ir_movit_config` declares `BSD-3-Clause` in its `package.xml` but
+ships **no licence text**, and its licence declaration is contradicted by its own
+config files, which carry no licence at all. That inconsistency is why each file
+was assessed from its own header rather than from the package declaration.
+
+**Added:** `docs/UPSTREAM_DEPENDENCIES.md` — upstream repository and exact commit
+SHA (`d19ae761`), the full component-by-component licence matrix, why nothing is
+bundled, the two routes to self-containment, how to run it today against a pinned
+commit, and attribution to the original author.
+
+A complete local snapshot (209 files) of the upstream commit, with a per-file
+SHA-256 manifest, was taken and preserved outside this repository.
+
+**Corrected — testing documentation.** The previous version of this README said
+`colcon build` and launching were "NOT TESTED", which misread as *the project was
+never tested*. That was wrong and is fixed. The [Results](#results) and
+[Reproducibility status](#reproducibility-status) sections now separate two
+things explicitly:
+
+| | |
+|---|---|
+| The original implementation in the original environment | **tested and working** — the cube swap completed and was recorded, with a live transform tree and the report as evidence |
+| A fresh build and run of *this* repository | **not performed** here — no ROS 2 or MoveIt 2 on the preparation host |
+
+No test result was invented; the change is in what the documentation claims.
+
+**Expanded:** the install and run sections now cover Ubuntu and ROS 2 versions,
+the full system dependency list including `dt-apriltags`, `colcon` build steps,
+simulation startup, and a step-by-step description of what a successful run looks
+like.
+
 ## Publication blockers — remaining
 
 Only one blocker is left, and it is not a technical one:
