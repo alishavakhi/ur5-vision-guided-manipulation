@@ -341,3 +341,61 @@ is unchanged and remains the authoritative record for this repository.
 No source file, vendored dependency, report or licence text was modified by this
 pass.
 
+
+## 11. Complete environment preservation, and the final audit items
+
+**Context.** An independent audit checked the published state against the intent and
+found the tree sound, licence coverage complete and the documentation accurate. It
+also produced three items to close, and this release implements all of them.
+
+**1. The environment is now preserved COMPLETE.** The requirement is that neither
+project depends on the upstream repository remaining available. `third_party/ir_2526/`
+previously held the packages this project ran, with alternative launch files trimmed
+to avoid dangling references. That was a reasonable choice for a per-project subset,
+but the wrong choice for *preservation*, and completeness now wins.
+
+Added: `apriltag_ros/`, the `objects` and `docks` models, and the launch files
+previously trimmed (`ir_launch/assignment_1.launch.py`, `spawn_tb3_launch.py`,
+`exercise_4.launch.py`, and the alternative `ir_movit_config` launch files).
+
+| | Before | After |
+|---|---|---|
+| upstream files included | 127 | **133, identical in both repositories** |
+| packages | 4 of 5 | 5 of 5 |
+
+All 133 files are SHA-256 verified byte-identical to upstream `d19ae761`. Nothing
+was renamed, reformatted or edited.
+
+**Not included, and enumerated rather than hidden** — 74 of the 207 upstream files:
+
+| Excluded | Files | Reason |
+|---|---|---|
+| `ir_base/models/artag/` | 36 | © Nicola Castaman, no licence. Replaced by markers regenerated from the public BSD-2-Clause `tag36h11` family definition |
+| `ir_base/models/walls/arena_walls/` | 3 | © Elisa Tosello, no licence. Unreferenced by any world |
+| `ir_base/models/{build,install,log}/` | 35 | colcon output committed upstream by accident; embeds the upstream author's local path |
+
+The manifest is explicit that this **is not a byte-for-byte complete copy** of the
+upstream repository, and it is nowhere described as one. All 207 files are preserved
+privately with a per-file SHA-256 manifest.
+
+**2. Robotiq / PickNik attribution added.** `ir_desription/urdf/robotiq_d.urdf`
+reproduces the `robotiq_gripper` xacro macro from PickNik's `robotiq_description`
+(BSD 3-Clause, © 2022 PickNik Robotics) and was not named in the `NOTICE`. Now
+attributed, with the licence text committed at
+`third_party/ir_2526/licenses/robotiq-BSD-3-Clause.txt`. `apriltag_ros` (MIT)
+and the UR5 meshes (BSD-3-Clause) are likewise recorded explicitly.
+
+**3. The ROS 2 distribution was identified.** It had been recorded as undetermined
+through every previous pass rather than guessed. The audit found hard evidence: the
+vendored `ir_desription/urdf/ur_gripper.urdf` — the file both launch paths load,
+byte-identical to upstream — hard-codes 18 mesh paths as
+`file:///opt/ros/jazzy/share/robotiq_description/...`. The environment was therefore
+**ROS 2 Jazzy**. Because those paths are absolute, this project effectively requires
+Jazzy. Recorded as inference from a named artefact, with confirmation by the
+original operators still outstanding.
+
+**4. A complete test plan added** at [`TEST_PLAN.md`](TEST_PLAN.md): environment,
+build, launch, expected outputs, the four automation layers, and an explicit
+statement of what has and has not been executed.
+
+No algorithm, source file, report or licence text was modified by this release.
