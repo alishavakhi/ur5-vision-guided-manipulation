@@ -78,8 +78,11 @@ The upstream packages that would satisfy the requirements above:
   course's own URDF)
 - `moveit_config` / `moveit2` for the planning pipeline, with a planning group
   that must be **named `ir_arm`** or the C++ node will not find it
-- `robotiq` gripper description plus a `ros2_control` gripper controller exposing
-  the `GripperCommand` action at `/gripper_controller/gripper_cmd`
+- `robotiq_description` — the Robotiq 2F-85 model and the UR-to-Robotiq adapter
+  meshes referenced by the vendored URDFs; install it as
+  `ros-$ROS_DISTRO-robotiq-description` (BSD-3-Clause, PickNik), it is not
+  vendored here — plus a `ros2_control` gripper controller exposing the
+  `GripperCommand` action at `/gripper_controller/gripper_cmd`
 - `gazebo_ros` for the simulation
 - an RGB camera sensor publishing on `/rgb_camera/image` with matching
   `camera_info`

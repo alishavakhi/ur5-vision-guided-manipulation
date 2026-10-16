@@ -56,7 +56,7 @@ rights holder for it. The following are all **required** to run the simulation:
 | `ir_base/models/artag/**` — ARTag model and AprilTag textures | **Nicola Castaman** `<nicola.castaman@dei.unipd.it>` | No licence stated in `model.config`. **Required by the world.** |
 | `ir_base/models/cafe_table/**` — the table model | **Nate Koenig** `<nate@osrfoundation.org>`, Open Robotics | No licence stated in `model.config`. From the Gazebo model collection, whose models are generally permissive or CC-BY, but unconfirmed for this copy. |
 | `ir_desription/meshes/ur5/**` — UR5 visual and collision meshes | **Universal Robots**, `ur_description` | **BSD-3-Clause** — redistribution permitted with attribution; the meshes are binaries carrying no embedded notice, so `third_party/ir_2526/NOTICE` serves as the notice |
-| `ir_desription/urdf/robotiq_d.urdf` — Robotiq gripper description | Robotiq | Licence not stated in the file; redistributed as part of the upstream environment. **Should be confirmed.** |
+| `ir_desription/urdf/robotiq_d.urdf` — Robotiq gripper description | Robotiq | Licence not stated in the file; redistributed as part of the upstream environment, authorship notice unmodified. See the scope note below. |
 | `ir_launch`, `ir_movit_config` launch files derived from Universal Robots bringup | Stogl Robotics Consulting UG | **BSD-3-Clause** — redistribution permitted, notice intact |
 | Launch files derived from MoveIt / FZI | FZI Forschungszentrum Informatik; PickNik, Inc. | **BSD-3-Clause** — redistribution permitted, notice intact |
 
@@ -128,7 +128,7 @@ models after the first download, so this is required once and then works offline
 It is **not** redistributed here — it is fetched from upstream under its own
 licence.
 
-## Open question before publication
+## Third-party scope question — raised, and answered on publication
 
 The professor's permission covers **his** work. Three items inside the required
 set were authored by other people and carry no stated licence:
@@ -137,21 +137,29 @@ set were authored by other people and carry no stated licence:
 - `ir_base/models/cafe_table` — © Nate Koenig / Open Robotics
 - `ir_desription/urdf/robotiq_d.urdf` — Robotiq
 
-Either:
+This was put to the repository owner before publication; on 2026-10-16
+publication was authorised on the basis that these files form part of the
+environment being redistributed with the original author's permission, with every
+authorship notice preserved verbatim.
 
-1. **confirm** the permission extends to those third-party assets, or obtain their
-   authors' agreement; or
-2. **replace them**: `models/artag` can be regenerated from the public AprilTag
-   `36h11` family definition (AprilRobotics, BSD-2-Clause) as original work;
-   `models/cafe_table` can be replaced with an equivalent table model from a
-   permissively licensed source; and the Robotiq description can be taken from
-   `robotiq_description` (BSD-3-Clause, PickNik) instead of the course copy.
+Stated plainly, so nothing here reads as a licence it is not:
 
-Until that is settled, this repository carries an **unresolved third-party
-attribution question** for those files. Everything else is either the professor's
-own work under his permission, or permissively licensed with its notice intact —
-notably the UR5 meshes, which are BSD-3-Clause from `ur_description` and are
-redistributable with the attribution provided in `third_party/ir_2526/NOTICE`.
+- these items carry **no licence text of their own**. None was invented for them,
+  and they are not covered by this repository's Apache-2.0 licence;
+- they are included unmodified, with their authors' own notices exactly as
+  upstream wrote them, and recorded in `../third_party/ir_2526/NOTICE`;
+- if the question is ever revisited, `models/artag` can be regenerated from the
+  public AprilTag `36h11` family definition (AprilRobotics, BSD-2-Clause) as
+  original work; `models/cafe_table` can be replaced with an equivalent table
+  model from a permissively licensed source; and the Robotiq gripper description
+  can be taken from `robotiq_description` (BSD-3-Clause, PickNik) — which this
+  repository now installs from the distribution anyway, for the meshes.
+  Each is a one-commit change.
+
+Everything else is either the professor's own work under his permission, or
+permissively licensed with its notice intact — notably the UR5 meshes, which are
+BSD-3-Clause from `ur_description` and are redistributable with the attribution
+provided in `third_party/ir_2526/NOTICE`.
 
 ## Attribution
 

@@ -251,8 +251,9 @@ with the author's permission, copyright remains with the original authors".
 **Open items:** these files inside the required set are credited to other authors
 and carry no stated licence — `models/artag` (Nicola Castaman), `models/cafe_table`
 (Nate Koenig / Open Robotics) and `ir_desription/urdf/robotiq_d.urdf` (Robotiq).
-The author's permission covers his own work; whether it extends to those is an
-open question, recorded in `docs/UPSTREAM_DEPENDENCIES.md`. The UR5 meshes are
+The author's permission covers his own work; the scope question that raised was
+put to the repository owner and answered at publication — see section 9 and
+`docs/UPSTREAM_DEPENDENCIES.md`. The UR5 meshes are
 **not** in that category — they are BSD-3-Clause from `ur_description` and are
 redistributable with the attribution supplied in `NOTICE`.
 
@@ -260,11 +261,45 @@ redistributable with the attribution supplied in `NOTICE`.
 (`OpenRobotics/models/Sun`) on first run. Gazebo caches it, so it is a one-time
 network requirement and it is not redistributed here.
 
-## Publication blockers — remaining
+## 9. Publication, and the consent record
 
-Only one blocker is left, and it is not a technical one:
+**Published 2026-10-16.** Both consent gates that were open when the sections
+above were written are now closed, and the repository is public.
 
 1. **Collaborator consent.** `group29_assignment_2` was **led by Vaheid Labbaf**
-   (8 commits to Ali Shavakhi's 6), who is also a co-author of the report. This
-   repository presents his principal work. Consent to publish has **not** been
-   confirmed, and it should not be made public until it is.
+   (8 commits to Ali Shavakhi's 6), and he is a co-author of the report: this
+   repository presents his principal work. The repository owner confirmed on
+   2026-10-16 that Vaheid Labbaf agreed to publication of the shared projects.
+   Attribution stays accurate per path — see `../CONTRIBUTORS.md` and the *My
+   contribution* section of the README, which states his share plainly rather
+   than folding it into the owner's.
+2. **Redistribution permission for the simulation environment.** The original
+   author's permission to redistribute the environment files with attribution was
+   confirmed on 2026-10-16, and the environment is vendored in section 8 above. A
+   scope question was raised on the same day for the three items inside it that
+   are credited to other authors (`models/artag`, `models/cafe_table`,
+   `ir_desription/urdf/robotiq_d.urdf`); the owner authorised publication with
+   those notices preserved unmodified. Their licence status remains documented,
+   unresolved and unhidden in `UPSTREAM_DEPENDENCIES.md` and
+   `../third_party/ir_2526/NOTICE`.
+
+**Documentation corrected in the same pass**, after a verification run against
+the live repository:
+
+- *Known limitations* previously described the simulation environment as "not
+  bundled" — true before section 8, false after it. Corrected.
+- The reproducibility table listed "vendored code" as *verified absent*, which
+  section 8 contradicts. Split into *secrets and personal data* (absent) and
+  *vendored third-party code* (present, intentional, hashed).
+- This section previously stated that collaborator consent had not been
+  confirmed; it now records the consent that was obtained.
+- **`robotiq_description` was missing from the install instructions.** The
+  vendored `ir_desription/urdf/ur_gripper.urdf` — the model both launch paths
+  load — resolves its gripper meshes as
+  `package://robotiq_description/meshes/...`, and nothing in the repository
+  provided that package, nor declared it in a `package.xml`, so `rosdep` would
+  not have installed it either. Added to the prerequisites table and the `apt`
+  list in the README, and to `RUNNING.md`. Every path, `urdf/` include and
+  `config/` file the vendored description references was checked against the
+  released `ros-<distro>-robotiq-description` package: all present, on both
+  Humble and Jazzy.

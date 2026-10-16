@@ -366,6 +366,7 @@ omitted** — including `rclpy`, `sensor_msgs`, `std_msgs`, `tf2_ros`, `cv_bridg
 | Vision | `cv-bridge`, `vision-opencv`, `python3-opencv`, `python3-numpy` |
 | AprilTag (Python) | `dt-apriltags` via pip — **not** a rosdep key |
 | Gazebo | `ros-gz` |
+| Gripper model | `robotiq-description` — the Robotiq 2F-85 model and adapter meshes the vendored URDFs reference |
 
 ### 2. Install the system dependencies
 
@@ -382,6 +383,7 @@ sudo apt install -y \
   ros-$ROS_DISTRO-ros-gz ros-$ROS_DISTRO-ros-gz-bridge \
   ros-$ROS_DISTRO-ur-description ros-$ROS_DISTRO-ur-moveit-config \
   ros-$ROS_DISTRO-ur-robot-driver ros-$ROS_DISTRO-ur-simulation-gz \
+  ros-$ROS_DISTRO-robotiq-description \
   ros-$ROS_DISTRO-moveit-servo ros-$ROS_DISTRO-moveit-ros-move-group \
   ros-$ROS_DISTRO-joint-state-publisher ros-$ROS_DISTRO-xacro \
   python3-opencv python3-numpy python3-colcon-common-extensions
@@ -393,6 +395,16 @@ The `ur-*` packages are required because the vendored launch path resolves them
 by name — `ur_description` for the Gazebo resource path and rviz configuration,
 and `ur_robot_driver` from `ir_movit.launch.py`. They are upstream's own
 references and are left unmodified.
+
+`robotiq_description` is required for the same reason: the vendored
+`ir_desription/urdf/ur_gripper.urdf` is the model both launch paths load, and it
+resolves its gripper meshes as `package://robotiq_description/meshes/...`. That
+package is not vendored and is not declared in any `package.xml`, so `rosdep`
+does not fetch it either — it has to be installed. Every mesh path, `urdf/`
+xacro include and `config/` file the vendored description references was checked
+against the released `ros-$ROS_DISTRO-robotiq-description` package (0.0.1,
+BSD-3-Clause, maintained by PickNik Robotics) on Humble and Jazzy: all are
+present, with the layouts the vendored files expect.
 
 ### 3. Get the code and build
 
@@ -552,12 +564,19 @@ untested system. Nothing below is invented.
 
 Recorded from reading the code; none of these were changed during preparation.
 
-1. **The simulation environment is an external dependency.** The launch file is not
-   self-contained — it delegates Gazebo, the UR5 model and MoveIt 2 bringup to
-   course packages that are **not** bundled, because the upstream repository is
-   unlicensed. [`docs/UPSTREAM_DEPENDENCIES.md`](docs/UPSTREAM_DEPENDENCIES.md)
-   gives the provenance, the full licensing matrix and the two routes to making
-   this repository self-contained;
+1. **The environment is vendored, but the ROS 2 distribution is not pinned.** The
+   course packages the launch file needs — `ir_launch`, `ir_base`, `ir_desription`
+   and `ir_movit_config` — are included under
+   [`third_party/ir_2526/`](third_party/ir_2526/), vendored byte-identically at
+   upstream commit `d19ae761`, so no external repository has to be cloned. What
+   remains external is ordinary distribution packages (`ur_description`,
+   `robotiq_description`, `ros_gz`, MoveIt 2), each under its own licence. What is
+   *not* settled is the distribution itself — Humble or Jazzy — which matters most
+   for this project, since the MoveIt 2 and `control_msgs` APIs differ between
+   them; see [Reproducibility status](#reproducibility-status). Provenance and the
+   licence boundary are in
+   [`docs/UPSTREAM_DEPENDENCIES.md`](docs/UPSTREAM_DEPENDENCIES.md) and
+   [`third_party/ir_2526/NOTICE`](third_party/ir_2526/NOTICE);
    [`docs/RUNNING.md`](docs/RUNNING.md) is the interface reference.
 2. **The manipulation sequence is hard-coded to the scene.** Grasp offsets,
    the buffer location (`loc_Safe` = cube A offset by −0.07, +0.1, +0.15 m), the
@@ -599,7 +618,8 @@ repository. Nothing in the right-hand column was executed here.
 | `package.xml` well-formed, deps cross-checked against imports | — | verified |
 | `CMakeLists.txt` targets match the files present | — | verified by inspection |
 | Node / topic / action names documented in this README | — | verified against source |
-| Secrets, personal data, vendored code | — | verified absent |
+| Secrets and personal data | — | verified absent |
+| Vendored third-party code | — | present and intentional: `third_party/ir_2526/` only, hashed byte-identical to upstream `d19ae761` (see `docs/CHANGES.md`) |
 
 The C++ node in particular was **read, not compiled** during preparation. Its
 MoveIt 2 and `control_msgs` API usage could not be checked against a real
