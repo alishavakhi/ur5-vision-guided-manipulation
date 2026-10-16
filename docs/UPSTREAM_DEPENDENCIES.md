@@ -45,27 +45,65 @@ was invented. Its status is:
 The vendored files are therefore **not** covered by this repository's Apache-2.0
 licence, which applies only to `src/`, `docs/` and the READMEs.
 
-## What that permission does not necessarily cover
+## Third-party components inside the environment — resolved
 
-The permission is the professor's to give for **his own work**. The environment
-also contains material authored by other people, and he is not necessarily the
-rights holder for it. The following are all **required** to run the simulation:
+Two asset groups inside the vendored environment were not the author's to license,
+and neither is published on the strength of his permission. Both were dealt with on
+their own terms.
 
-| Item | Author / origin | Status |
-|---|---|---|
-| `ir_base/models/artag/**` — ARTag model and AprilTag textures | **Nicola Castaman** `<nicola.castaman@dei.unipd.it>` | No licence stated in `model.config`. **Required by the world.** |
-| `ir_base/models/cafe_table/**` — the table model | **Nate Koenig** `<nate@osrfoundation.org>`, Open Robotics | No licence stated in `model.config`. From the Gazebo model collection, whose models are generally permissive or CC-BY, but unconfirmed for this copy. |
-| `ir_desription/meshes/ur5/**` — UR5 visual and collision meshes | **Universal Robots**, `ur_description` | **BSD-3-Clause** — redistribution permitted with attribution; the meshes are binaries carrying no embedded notice, so `third_party/ir_2526/NOTICE` serves as the notice |
-| `ir_desription/urdf/robotiq_d.urdf` — Robotiq gripper description | Robotiq | Licence not stated in the file; redistributed as part of the upstream environment, authorship notice unmodified. See the scope note below. |
-| `ir_launch`, `ir_movit_config` launch files derived from Universal Robots bringup | Stogl Robotics Consulting UG | **BSD-3-Clause** — redistribution permitted, notice intact |
-| Launch files derived from MoveIt / FZI | FZI Forschungszentrum Informatik; PickNik, Inc. | **BSD-3-Clause** — redistribution permitted, notice intact |
+### 1. AprilTag marker images — regenerated from permissive data
 
-Everything else under `third_party/ir_2526/` — the worlds, MoveIt configuration,
-controllers, SRDF, xacro, kinematics and package scaffolding — is Piero
-Simonetto's own work.
+`ir_base/models/artag/**` was previously credited to **Nicola Castaman** with no
+licence stated anywhere — not in `model.config`, not in the repository. It has been
+replaced rather than published on someone else's permission.
 
-**The `artag` and `cafe_table` model directories, and `robotiq_d.urdf`, are the
-open items.** See the open question at the end.
+The 18 marker images are now rendered from the public AprilTag `tag36h11` family
+definition — the codewords and bit layout published in
+[`AprilRobotics/apriltag`](https://github.com/AprilRobotics/apriltag), licensed
+**BSD-2-Clause** (© 2013–2016 The Regents of The University of Michigan). The images
+distributed here are this project's own rendering of that permissively licensed
+data. `model.sdf`, `model.config` and the 16 OGRE material scripts were rewritten as
+equivalent functional files for the same reason.
+
+Compatibility was verified rather than assumed:
+
+| Check | Result |
+|---|---|
+| Every image decodes to its own tag id, using the reference AprilTag detector | 18 / 18 |
+| Module-level black/white pattern identical to the file it replaces | 18 / 18 |
+| Pixel difference against the file it replaces | 0–2 anti-aliased edge pixels in 8 of 18, 0 elsewhere |
+| Geometry, material names, file names and directory layout | unchanged |
+
+The two markers the simulation actually places in the world are `tag36h11` ids
+**1** and **10**, which is exactly what the detector is configured to look for.
+
+The previous files remain in this repository's git history, credited to their
+original author. Nothing was removed from history.
+
+### 2. Cafe table model — CC-BY-3.0, redistributed with attribution
+
+`ir_base/models/cafe_table/**` is not a course asset at all. It is the `cafe_table`
+model from [`osrf/gazebo_models`](https://github.com/osrf/gazebo_models), licensed
+**Creative Commons Attribution 3.0 Unported**, © 2012 Nathan Koenig.
+
+That licence expressly permits redistribution provided attribution is given, so the
+model is kept unchanged and attributed in
+[`third_party/ir_2526/NOTICE`](../third_party/ir_2526/NOTICE), with the licence text
+in `third_party/ir_2526/licenses/CC-BY-3.0.txt`.
+
+| Check | Result |
+|---|---|
+| `meshes/cafe_table.dae` against upstream | byte-identical |
+| `materials/textures/Maple.jpg`, `Wood_Floor_Dark.jpg` against upstream | byte-identical |
+| `.sdf` against upstream | one URI differs (`model://` vs `file://models/`) — a path fix by the vendor, not content |
+
+### Components not affected by any of this
+
+The UR5 meshes are BSD-3-Clause from Universal Robots' `ur_description` and are
+redistributable with the attribution supplied in the `NOTICE`. The vendored launch
+files derive from Nav2 (Apache-2.0), Stogl Robotics Consulting UG (BSD-3-Clause) and
+PickNik / FZI (BSD-3-Clause), each with its notice intact inside the file.
+
 
 ## What is vendored, and what was left out
 

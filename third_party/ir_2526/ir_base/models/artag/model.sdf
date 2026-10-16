@@ -1,4 +1,10 @@
 <?xml version="1.0" ?>
+<!-- Flat AprilTag marker plane.
+
+     The tag image is rendered from the AprilTag tag36h11 family definition
+     (AprilRobotics/apriltag, BSD-2-Clause). The geometry and the material
+     binding reproduce what the course simulation environment expects, so the
+     world files and the detector configuration are unaffected. -->
 <sdf version="1.5">
   <model name="artag">
     <static>true</static>

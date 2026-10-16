@@ -16,7 +16,7 @@ and executes a constraint-aware pick-and-place sequence.
 
 ## Contents
 
-- [Overview and objectives](#overview-and-objectives)
+- [Overview and objectives](#overview)
 - [Features](#features)
 - [Demo](#demo)
 - [System architecture](#system-architecture)
@@ -80,6 +80,11 @@ Everything runs in **simulation** on a UR5 arm with a Robotiq 85 gripper.
   handle (5 s) and result (10 s) rather than hanging.
 
 ## Demo
+
+A recording of the **working system**, captured by the project team while the cube
+swap was demonstrated. It is the primary evidence that the pipeline was implemented
+and ran end to end in simulation, and it is what the
+[Results](#results) section refers to.
 
 | Demonstration | Shows |
 |---|---|
@@ -619,6 +624,7 @@ repository. Nothing in the right-hand column was executed here.
 | `CMakeLists.txt` targets match the files present | — | verified by inspection |
 | Node / topic / action names documented in this README | — | verified against source |
 | Secrets and personal data | — | verified absent |
+| Third-party asset licences | — | resolved — marker images regenerated from BSD-2-Clause family data; cafe table verified CC-BY-3.0 and attributed (see [`docs/UPSTREAM_DEPENDENCIES.md`](docs/UPSTREAM_DEPENDENCIES.md)) |
 | Vendored third-party code | — | present and intentional: `third_party/ir_2526/` only, hashed byte-identical to upstream `d19ae761` (see `docs/CHANGES.md`) |
 
 The C++ node in particular was **read, not compiled** during preparation. Its
@@ -628,28 +634,26 @@ environment it originally ran in.
 
 ## My contribution
 
-This was a **two-person group project** (Group 29). Work is not presented here as
-solely mine.
+This repository is **jointly authored work**, and it is presented that way rather
+than as sole authorship. The commit-level split for the package is:
 
-**Collaborators:** Ali Shavakhi, Vaheid Labbaf — co-authors of the accompanying
-report.
+| `group29_assignment_2` | Ali Shavakhi | Vaheid Labbaf |
+|---|---|---|
+| commits | 6 | 8 |
 
-Commit-level contribution to the original repository, by package:
+Commit counts are not the same thing as contribution, and the accompanying report
+describes the system architecture as jointly designed — the perception and
+manipulation pipeline was specified by the two of us together. This repository is
+therefore included as shared work, with the split shown rather than implied.
 
-| Package | Vaheid Labbaf | Ali Shavakhi | Reading |
-|---|---|---|---|
-| `group29_assignment_2` | **8 commits** | 6 commits | led by Vaheid Labbaf |
-
-**This package was led by my teammate**, and the accompanying report describes the
-architecture as jointly designed. I contributed to it and am a co-author; I am not
-its principal author, and it is presented here as shared work with the split shown.
-
-In the wider repository, across both assignments, I was the majority committer
-(26 of 40 commits), and the Kalman-filtered estimator in the companion
+Across the original repository as a whole, spanning both assignments, I am the
+majority committer: 26 of 40 commits. The Kalman-filtered estimator in the
+companion
 [TurtleBot3 repository](https://github.com/alishavakhi/turtlebot3-navigation-perception)
 is entirely my own work.
 
-See [`CONTRIBUTORS.md`](CONTRIBUTORS.md).
+[`CONTRIBUTORS.md`](CONTRIBUTORS.md) is the authoritative attribution record for
+this repository. Nothing authored by anyone else is presented here as mine.
 
 ## Licence and acknowledgements
 
@@ -662,11 +666,21 @@ documentation in this repository — that is, `src/`, `docs/` and the READMEs.
 It **does not** cover:
 
 - **`third_party/ir_2526/`** — the vendored simulation environment, written by
-  **Piero Simonetto** and redistributed with his permission. Copyright remains
-  with the original authors; see
-  [`third_party/ir_2526/NOTICE`](third_party/ir_2526/NOTICE). Within it,
-  `models/artag` is © Nicola Castaman, `models/cafe_table` is © Nate Koenig /
-  Open Robotics, and the UR5 meshes are © Universal Robots under BSD-3-Clause.
+  **Piero Simonetto** and redistributed with his permission. Copyright remains with
+  the original authors; see [`third_party/ir_2526/NOTICE`](third_party/ir_2526/NOTICE).
+- **`third_party/ir_2526/ir_desription/meshes/ur5/`** — the UR5 visual and collision
+  meshes, © Universal Robots, **BSD-3-Clause**, redistributed with the attribution
+  recorded in the `NOTICE`.
+- **`third_party/ir_2526/ir_base/models/cafe_table/`** — the Gazebo `cafe_table`
+  model, © 2012 Nathan Koenig, licensed **CC-BY-3.0** and redistributed under that
+  licence with attribution. Licence text in
+  `third_party/ir_2526/licenses/CC-BY-3.0.txt`.
+
+The marker images under `models/artag/` are **not** third-party material. They are
+rendered by this project from the public AprilTag `tag36h11` family definition
+(AprilRobotics, **BSD-2-Clause**), and are redistributed under that licence with the
+notice in the `NOTICE` and the licence text in
+`third_party/ir_2526/licenses/AprilTag-BSD-2-Clause.txt`.
 - **`docs/reports/`** — the academic report, the authors' own work, included with
   the co-author's consent.
 
