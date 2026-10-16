@@ -1,0 +1,46 @@
+# ---------- colcon / ROS 2 build artefacts ----------
+build/
+install/
+log/
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+
+# Virtual environments.
+# A full virtualenv (numpy/scipy binaries) was accidentally committed to the
+# original repository and bloated its history to ~50 MB. It is ignored here and
+# is not present in this repository's history.
+venv/
+venv*/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ---------- Testing / tooling caches ----------
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---------- Editors ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- ROS / recorded data ----------
+*.bag
+*.db3
+*.mcap
