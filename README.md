@@ -1,5 +1,7 @@
 # UR5 Vision-Guided Manipulation
 
+Developed as part of academic coursework at the University of Padova, Italy.
+
 A ROS 2 pipeline that lets a simulated **UR5** arm autonomously **swap two
 AprilTag-labelled cubes**, using only an RGB camera and AprilTag detection to
 work out where they are and what colour they are.
